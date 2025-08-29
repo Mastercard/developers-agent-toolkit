@@ -5,7 +5,7 @@
   <img src="https://developer.mastercard.com/_/_/src/global/assets/svg/mcdev-logo-dark.svg" alt="mastercard developers logo">
 </picture>
 
-The Mastercard Developers Agent Toolkit allows popular agent frameworks (currently Model Context Protocol - MCP) to integrate with [Mastercard Developers Platform](https://developer.mastercard.com) for service discovery and integration guides.
+The Mastercard Developers Agent Toolkit allows popular agent frameworks (currently Model Context Protocol - MCP) to integrate with [Mastercard Developers Platform]([https://developer.mastercard.com](https://developer.mastercard.com/platform/documentation)) for service discovery and integration guides.
 
 ## Key Features
 
