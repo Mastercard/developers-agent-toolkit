@@ -1,0 +1,83 @@
+m# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+c074abbd48d3cf669c715e18b2dda7_github-pages-challenge-michaelbjordanz1. Create a TXT record in your DNS configuration for the following hostname: _github-pages-challenge-michaelbjordanz.outlierpharoahcexcultzar.metaverse
+2. Use this code for the value of the TXT record: c074abbd48d3cf669c715e18b2dda7
+3. Wait until your DNS configuration changes. This could take up to 24 hours to propagate.
+gh repo clone github/github-mcp-server{
+  "mcp": {
+    "inputs": [
+      {
+        "type": "promptString",
+        "id": "github_token",
+        "description": "GitHub Personal Access Token",
+        "password": true
+      }
+    ],
+    "servers": {
+      "github": {
+        "command": "docker",
+        "args": [
+          "run",
+          "-i",
+          "--rm",
+          "-e",
+          "GITHUB_PERSONAL_ACCESS_TOKEN",
+          "ghcr.io/github/github-mcp-server"
+        ],
+        "env": {
+          "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}"
+        }
+      }
+    }
+  }
+}{
+  "mcp": {
+    "servers": {
+      "github": {
+        "command": "/path/to/github-mcp-server",
+        "args": ["stdio"],
+        "env": {
+          "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+        }
+      }
+    }
+  }
+}github-mcp-server --toolsets repos,issues,pull_requests,actions,code_securityGITHUB_TOOLSETS="repos,issues,pull_requests,actions,code_security" ./github-mcp-serverdocker run -i --rm \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> \
+  -e GITHUB_TOOLSETS="repos,issues,pull_requests,actions,code_security,experiments" \
+  ghcr.io/github/github-mcp-server./github-mcp-server --toolsets allGITHUB_TOOLSETS="all" ./github-mcp-server./github-mcp-server --dynamic-toolsetsdocker run -i --rm \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> \
+  -e GITHUB_DYNAMIC_TOOLSETS=1 \
+  ghcr.io/github/github-mcp-server./github-mcp-server --read-onlydocker run -i --rm \
+  -e GITHUB_PERSONAL_ACCESS_TOKEN=<your-token> \
+  -e GITHUB_READ_ONLY=1 \
+  ghcr.io/github/github-mcp-server"github": {
+    "command": "docker",
+    "args": [
+    "run",
+    "-i",
+    "--rm",
+    "-e",
+    "GITHUB_PERSONAL_ACCESS_TOKEN",
+    "-e",
+    "GITHUB_HOST",
+    "ghcr.io/github/github-mcp-server"
+    ],
+    "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github_token}",
+        "GITHUB_HOST": "https://<your GHES or ghe.com domain name>"
+    }
+}{
+  "TOOL_ADD_ISSUE_COMMENT_DESCRIPTION": "an alternative description",
+  "TOOL_CREATE_BRANCH_DESCRIPTION": "Create a new branch in a GitHub repository"
+}./github-mcp-server --export-translations
+cat github-mcp-server-config.jsonexport GITHUB_MCP_TOOL_ADD_ISSUE_COMMENT_DESCRIPTION="an alternative description"https://quickshare.samsungcloud.com/mXhw3thvXT9t/en/docs/build-with-claude/batch-processing#how-does-the-message-batches-api-affect-pricing/en/docs/build-with-claude/batch-processing#can-i-update-a-batch-after-its-been-submitted/en/docs/build-with-claude/batch-processing#are-there-message-batches-api-rate-limits-and-do-they-interact-with-the-messages-api-rate-limits/en/docs/build-with-claude/batch-processing#how-do-i-handle-errors-in-my-batch-requests/en/docs/build-with-claude/batch-processing#how-does-the-message-batches-api-handle-privacy-and-data-separation/en/docs/build-with-claude/batch-processing#can-i-use-prompt-caching-in-the-message-batches-apihttps://www.anthropic.com/news/claude-for-financial-services?ref=thisweekinfintech.comhttps://x.com/NikMilanovic/status/1945152879834358093?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1945152879834358093%7Ctwgr%5Ef1c9809b4177c46e290511c7de7bb6700d199f30%7Ctwcon%5Es1_c10&ref_url=https%3A%2F%2Fwww.thisweekinfintech.com%2Fanthropic%2Fhttps://x.com/NikMilanovic/status/1945152879834358093?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1945152879834358093%7Ctwgr%5Ef1c9809b4177c46e290511c7de7bb6700d199f30%7Ctwcon%5Es1_c10&ref_url=https%3A%2F%2Fwww.thisweekinfintech.com%2Fanthropic%2Fhttps://x.com/NikMilanovic/status/1945152879834358093?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1945152879834358093%7Ctwgr%5E9f85a103444571a4fbd9d859a375fa448805fc19%7Ctwcon%5Es1_c10&ref_url=https%3A%2F%2Fwww.thisweekinfintech.com%2Fanthropic%2Fhttps://x.com/NikMilanovic/status/1945152879834358093?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1945152879834358093%7Ctwgr%5E9f85a103444571a4fbd9d859a375fa448805fc19%7Ctwcon%5Es1_c10&ref_url=https%3A%2F%2Fwww.thisweekinfintech.com%2Fanthropic%2F
