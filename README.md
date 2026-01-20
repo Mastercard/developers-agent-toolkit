@@ -76,6 +76,53 @@ main().catch((error) => {
 
 For more details, checkout [typescript](typescript/README.md) directory
 
+## Using the MCP server with MCP clients (Claude Code example)
+
+The Mastercard Developers MCP server is designed to be used with a long-lived MCP client
+(e.g., Claude Code, Cursor, or other MCP-enabled IDEs). It is not intended to be used as a
+one-shot CLI command.
+
+> **Note**
+> Node.js 18+ must be available in your `PATH` for `npx` to work.
+
+### Register the MCP server in Claude Code
+
+Register the server using Claude Code’s MCP configuration command:
+
+```bash
+claude mcp add \
+  --transport stdio \
+  mastercard-developers \
+  -- npx -y @mastercard/developers-mcp
+```
+
+(The server name mastercard-developers is arbitrary—you can choose any name.)
+
+You can verify that the server is registered with:
+
+```bash
+claude mcp list
+```
+
+### Example prompts
+
+Once registered, you can ask Claude questions such as:
+
+- List all available Mastercard Developers services
+- Show the documentation for the Open Banking US service
+- List API operations for Mastercard Send
+
+### Why piping input does not work
+
+This MCP server communicates over a persistent stdio JSON-RPC session and expects an
+interactive MCP client. As a result, piping a single request such as:
+
+```bash
+echo '{ ... }' | npx -y @mastercard/developers-mcp
+```
+
+is not supported.
+
 ## Contributing
 
 Contributions are welcome. Please feel free to submit a pull request or open an issue to report a bug or suggest a feature.
