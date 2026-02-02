@@ -1,0 +1,21 @@
+- md: https://developer.mastercard.com/cross-border-services/documentation/index.md
+38bf8f0279e645be9f2a80670d3d113b_specification(s): 
+  - https://developer.mastercard.com/cross-border-services/swagger/endpoint-guide-adapter-swagger-eu.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/cross-border-pre-notification-webhook-swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/endpoint-guide-adapter-swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/quoteapi_eu_swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/quoteapi_uk_swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/address_validation_service_uk_swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/bank_account_validation_swagger_uk.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/bank_account_validation_swagger_eu.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/cross-border-webhook-swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/address_validation_service_eu_swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/RFI+Spec-uk.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/bank_account_validation_swagger_V2.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/address_validation_service_swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/RFI+Spec.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/cross-border-eu-swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/quoteapi_swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/cross-border-swagger.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/RFI+Spec-eu.yaml
+  - https://developer.mastercard.com/cross-border-services/swagger/cross-border-uk-swagger.yaml
