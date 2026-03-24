@@ -34,6 +34,8 @@ export const getDocumentationPage = (context: ToolContext): Tool => ({
   parameters: getParameters(context),
   annotations: {
     readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
     openWorldHint: true,
   },
   execute: (params) => execute(context, params),
