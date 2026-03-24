@@ -13,9 +13,6 @@ export class MastercardDevelopersAgentToolkit extends McpServer {
     super({
       name: 'mastercard-developers-mcp',
       version: version,
-      capabilities: {
-        tools: {},
-      },
     });
 
     this.registerAllTools(config);
@@ -27,7 +24,7 @@ export class MastercardDevelopersAgentToolkit extends McpServer {
     const availableTools = tools(context);
     const enabledTools = availableTools.filter((tool) => {
       // If serviceId is provided, disable the services list tool
-      if (context.serviceId && tool.method === 'get-services-list') {
+      if (context.serviceId && tool.name === 'get-services-list') {
         return false;
       }
 
@@ -35,10 +32,14 @@ export class MastercardDevelopersAgentToolkit extends McpServer {
     });
 
     enabledTools.forEach((tool) => {
-      this.tool(
-        tool.method,
-        tool.description,
-        tool.parameters.shape,
+      this.registerTool(
+        tool.name,
+        {
+          title: tool.title,
+          description: tool.description,
+          inputSchema: tool.parameters,
+          annotations: tool.annotations,
+        },
         async (params: any) => {
           try {
             const result = await tool.execute(params);
@@ -47,9 +48,8 @@ export class MastercardDevelopersAgentToolkit extends McpServer {
             const message =
               error instanceof Error ? error.message : String(error);
             return {
-              content: [
-                { type: 'text' as const, text: message, isError: true },
-              ],
+              content: [{ type: 'text' as const, text: message }],
+              isError: true,
             };
           }
         }

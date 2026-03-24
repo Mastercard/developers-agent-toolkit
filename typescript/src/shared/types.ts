@@ -1,10 +1,12 @@
 import { z } from 'zod';
+import type { ToolAnnotations } from '@modelcontextprotocol/sdk/types.js';
 
 export interface Tool {
-  method: string;
   name: string;
+  title: string;
   description: string;
   parameters: z.ZodObject<any>;
+  annotations: ToolAnnotations;
   execute: (params: any) => Promise<string>;
 }
 

@@ -73,9 +73,15 @@ export const execute = async (
 };
 
 export const getOAuth10aGuide = (context: ToolContext): Tool => ({
-  method: 'get-oauth10a-integration-guide',
-  name: 'Get OAuth 1.0a Integration Guide',
+  name: 'get-oauth10a-integration-guide',
+  title: 'Get OAuth 1.0a Integration Guide',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });

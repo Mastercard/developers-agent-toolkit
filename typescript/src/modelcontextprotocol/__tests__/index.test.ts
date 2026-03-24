@@ -1,29 +1,61 @@
 import { MastercardDevelopersAgentToolkit, buildContext } from '../';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { tools } from '@/shared/tools';
 
-const mockTool = jest.spyOn(McpServer.prototype, 'tool');
-
 describe('MastercardDevelopersAgentToolkit', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+  function expectDefined<T>(value: T | undefined, message: string): T {
+    if (value === undefined) {
+      throw new Error(message);
+    }
 
-  it('should register all tools with correct method/description when no config', () => {
-    new MastercardDevelopersAgentToolkit({});
+    return value;
+  }
 
+  async function listRegisteredTools(
+    config: ConstructorParameters<typeof MastercardDevelopersAgentToolkit>[0]
+  ) {
+    const server = new MastercardDevelopersAgentToolkit(config);
+    const client = new Client(
+      { name: 'test-client', version: '1.0.0' },
+      { capabilities: {} }
+    );
+    const [clientTransport, serverTransport] =
+      InMemoryTransport.createLinkedPair();
+
+    await Promise.all([
+      server.connect(serverTransport),
+      client.connect(clientTransport),
+    ]);
+
+    try {
+      const result = await client.listTools();
+      return result.tools;
+    } finally {
+      await Promise.all([client.close(), server.close()]);
+    }
+  }
+
+  it('should list all tools with correct name/description when no config', async () => {
+    const registeredTools = await listRegisteredTools({});
     const expectedTools = tools({});
-    expect(mockTool).toHaveBeenCalledTimes(expectedTools.length);
+    expect(registeredTools).toHaveLength(expectedTools.length);
 
     expectedTools.forEach((expectedTool, index) => {
-      const [method, description] = mockTool.mock.calls[index];
-      expect(method).toBe(expectedTool.method);
-      expect(description).toBe(expectedTool.description);
+      const registeredTool = expectDefined(
+        registeredTools[index],
+        `Missing registered tool at index ${index}`
+      );
+      expect(registeredTool.name).toBe(expectedTool.name);
+      expect(registeredTool.title).toBe(expectedTool.title);
+      expect(registeredTool.description).toBe(expectedTool.description);
+      expect(registeredTool.annotations).toEqual(expectedTool.annotations);
+      expect(registeredTool.inputSchema).toBeDefined();
     });
   });
 
-  it('should register context-aware tools when apiSpecificationPath configured', () => {
-    new MastercardDevelopersAgentToolkit({
+  it('should list context-aware tools when apiSpecificationPath configured', async () => {
+    const registeredTools = await listRegisteredTools({
       apiSpecification:
         'https://static.developer.mastercard.com/content/service/swagger/path.yaml',
     });
@@ -31,33 +63,45 @@ describe('MastercardDevelopersAgentToolkit', () => {
     const expectedTools = tools({
       serviceId: 'service',
       apiSpecificationPath: '/service/swagger/path.yaml',
-    }).filter((tool) => tool.method !== 'get-services-list');
-    expect(mockTool).toHaveBeenCalledTimes(expectedTools.length);
+    }).filter((tool) => tool.name !== 'get-services-list');
+    expect(registeredTools).toHaveLength(expectedTools.length);
 
     expectedTools.forEach((expectedTool, index) => {
-      const [method, description] = mockTool.mock.calls[index];
-      expect(method).toBe(expectedTool.method);
-      expect(description).toBe(expectedTool.description);
+      const registeredTool = expectDefined(
+        registeredTools[index],
+        `Missing registered tool at index ${index}`
+      );
+      expect(registeredTool.name).toBe(expectedTool.name);
+      expect(registeredTool.title).toBe(expectedTool.title);
+      expect(registeredTool.description).toBe(expectedTool.description);
+      expect(registeredTool.annotations).toEqual(expectedTool.annotations);
+      expect(registeredTool.inputSchema).toBeDefined();
     });
   });
 
-  it('should exclude get-services-list when serviceId configured', () => {
-    new MastercardDevelopersAgentToolkit({
+  it('should exclude get-services-list when serviceId configured', async () => {
+    const registeredTools = await listRegisteredTools({
       service: 'https://developer.mastercard.com/test-service/documentation/',
     });
 
     const expectedTools = tools({ serviceId: 'test-service' }).filter(
-      (tool) => tool.method !== 'get-services-list'
+      (tool) => tool.name !== 'get-services-list'
     );
-    const registeredMethods = mockTool.mock.calls.map((call) => call[0]);
+    const registeredNames = registeredTools.map((tool) => tool.name);
 
-    expect(registeredMethods).not.toContain('get-services-list');
-    expect(mockTool).toHaveBeenCalledTimes(expectedTools.length);
+    expect(registeredNames).not.toContain('get-services-list');
+    expect(registeredTools).toHaveLength(expectedTools.length);
 
     expectedTools.forEach((expectedTool, index) => {
-      const [method, description] = mockTool.mock.calls[index];
-      expect(method).toBe(expectedTool.method);
-      expect(description).toBe(expectedTool.description);
+      const registeredTool = expectDefined(
+        registeredTools[index],
+        `Missing registered tool at index ${index}`
+      );
+      expect(registeredTool.name).toBe(expectedTool.name);
+      expect(registeredTool.title).toBe(expectedTool.title);
+      expect(registeredTool.description).toBe(expectedTool.description);
+      expect(registeredTool.annotations).toEqual(expectedTool.annotations);
+      expect(registeredTool.inputSchema).toBeDefined();
     });
   });
 });

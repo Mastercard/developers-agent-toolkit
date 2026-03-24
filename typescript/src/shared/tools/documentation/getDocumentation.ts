@@ -42,9 +42,15 @@ export const execute = async (
 };
 
 export const getDocumentation = (context: ToolContext): Tool => ({
-  method: 'get-documentation',
-  name: 'Get Documentation',
+  name: 'get-documentation',
+  title: 'Get Documentation',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });

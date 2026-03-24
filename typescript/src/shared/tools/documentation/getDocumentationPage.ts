@@ -28,9 +28,15 @@ export const execute = async (
 };
 
 export const getDocumentationPage = (context: ToolContext): Tool => ({
-  method: 'get-documentation-page',
-  name: 'Get Documentation Page',
+  name: 'get-documentation-page',
+  title: 'Get Documentation Page',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });

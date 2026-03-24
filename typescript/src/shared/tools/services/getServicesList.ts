@@ -21,9 +21,15 @@ export const execute = async (
 };
 
 export const getServicesList = (context: ToolContext): Tool => ({
-  method: 'get-services-list',
-  name: 'Get Services List',
+  name: 'get-services-list',
+  title: 'Get Services List',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });
