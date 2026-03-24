@@ -44,9 +44,13 @@ export const execute = async (
 };
 
 export const getApiOperationList = (context: ToolContext): Tool => ({
-  method: 'get-api-operation-list',
-  name: 'Get API Operation List',
+  name: 'get-api-operation-list',
+  title: 'Get API Operation List',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });

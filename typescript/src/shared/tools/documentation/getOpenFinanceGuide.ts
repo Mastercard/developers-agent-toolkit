@@ -21,9 +21,13 @@ export const execute = async (
 };
 
 export const getOpenFinanceGuide = (context: ToolContext): Tool => ({
-  method: 'get-openfinance-integration-guide',
-  name: 'Get Open Finance Integration Guide',
+  name: 'get-openfinance-integration-guide',
+  title: 'Get Open Finance Integration Guide',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });

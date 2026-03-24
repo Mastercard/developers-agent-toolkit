@@ -59,9 +59,13 @@ export const execute = async (
 };
 
 export const getDocumentationSection = (context: ToolContext): Tool => ({
-  method: 'get-documentation-section-content',
-  name: 'Get Documentation Section Content',
+  name: 'get-documentation-section-content',
+  title: 'Get Documentation Section Content',
   description: getDescription(context),
   parameters: getParameters(context),
+  annotations: {
+    readOnlyHint: true,
+    openWorldHint: true,
+  },
   execute: (params) => execute(context, params),
 });
