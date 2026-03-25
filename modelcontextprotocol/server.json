@@ -1,18 +1,19 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.mastercard/developers-mcp",
+  "name": "io.github.Mastercard/developers-mcp",
   "title": "Mastercard Developers MCP",
   "description": "Access Mastercard Developers APIs, documentation, and API specifications through MCP.",
   "repository": {
     "url": "https://github.com/Mastercard/developers-agent-toolkit",
-    "source": "github"
+    "source": "github",
+    "subfolder": "modelcontextprotocol"
   },
-  "version": "0.1.4",
+  "version": "0.1.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@mastercard/developers-mcp",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "transport": {
         "type": "stdio"
       }

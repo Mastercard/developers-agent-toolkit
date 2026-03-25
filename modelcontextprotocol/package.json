@@ -1,7 +1,7 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.5",
   "name": "@mastercard/developers-mcp",
-  "mcpName": "io.github.mastercard/developers-mcp",
+  "mcpName": "io.github.Mastercard/developers-mcp",
   "homepage": "https://github.com/mastercard/developers-agent-toolkit/tree/main/modelcontextprotocol",
   "description": "MCP server for Mastercard Developers Platform",
   "author": "Mastercard",
