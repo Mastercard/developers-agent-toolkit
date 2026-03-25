@@ -3,3 +3,4 @@
 .idea
 .eslintcache
 .npmrc
+.mcpregistry*
