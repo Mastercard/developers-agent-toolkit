@@ -16,7 +16,7 @@
   "support": "https://developer.mastercard.com/support",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mastercard/mastercard-developers-agent-toolkit"
+    "url": "https://github.com/Mastercard/developers-agent-toolkit"
   },
   "license": "MIT",
   "keywords": [
