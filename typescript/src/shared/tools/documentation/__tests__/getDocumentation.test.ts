@@ -15,7 +15,10 @@ describe('execute', () => {
     const mockResult = 'mock documentation';
     mockApi.getDocumentation.mockResolvedValue(mockResult);
 
-    const result = await execute({}, mockApi, { serviceId: 'test-service' });
+    const result = await execute(
+      { client: mockApi },
+      { serviceId: 'test-service' }
+    );
 
     expect(mockApi.getDocumentation).toHaveBeenCalledWith('test-service');
     expect(result).toBe(mockResult);
@@ -25,7 +28,10 @@ describe('execute', () => {
     const mockResult = 'mock documentation';
     mockApi.getDocumentation.mockResolvedValue(mockResult);
 
-    const result = await execute({ serviceId: 'context-service' }, mockApi, {});
+    const result = await execute(
+      { client: mockApi, serviceId: 'context-service' },
+      {}
+    );
 
     expect(mockApi.getDocumentation).toHaveBeenCalledWith('context-service');
     expect(result).toBe(mockResult);
@@ -34,7 +40,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['serviceId']);
@@ -42,7 +48,10 @@ describe('getParameters', () => {
   });
 
   it('should return the correct parameters if serviceId is specified in context', () => {
-    const parameters = getParameters({ serviceId: 'test-service' });
+    const parameters = getParameters({
+      client: mockApi,
+      serviceId: 'test-service',
+    });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual([]);

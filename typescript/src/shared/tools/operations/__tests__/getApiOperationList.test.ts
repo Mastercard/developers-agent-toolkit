@@ -15,9 +15,12 @@ describe('execute', () => {
     const mockResult = 'mock operations list';
     mockApi.getApiOperations.mockResolvedValue(mockResult);
 
-    const result = await execute({}, mockApi, {
-      apiSpecificationPath: '/test/path.yaml',
-    });
+    const result = await execute(
+      { client: mockApi },
+      {
+        apiSpecificationPath: '/test/path.yaml',
+      }
+    );
 
     expect(mockApi.getApiOperations).toHaveBeenCalledWith('/test/path.yaml');
     expect(result).toBe(mockResult);
@@ -28,8 +31,7 @@ describe('execute', () => {
     mockApi.getApiOperations.mockResolvedValue(mockResult);
 
     const result = await execute(
-      { apiSpecificationPath: '/context/path.yaml' },
-      mockApi,
+      { client: mockApi, apiSpecificationPath: '/context/path.yaml' },
       {}
     );
 
@@ -40,7 +42,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['apiSpecificationPath']);
@@ -49,6 +51,7 @@ describe('getParameters', () => {
 
   it('should return the correct parameters if apiSpecificationPath is specified in context', () => {
     const parameters = getParameters({
+      client: mockApi,
       apiSpecificationPath: '/test/path.yaml',
     });
 

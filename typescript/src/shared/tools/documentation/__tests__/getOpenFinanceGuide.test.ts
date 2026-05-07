@@ -15,7 +15,7 @@ describe('execute', () => {
     const mockResult = 'mock Open Finance guide content';
     mockApi.getDocumentationPage.mockResolvedValue(mockResult);
 
-    const result = await execute({}, mockApi, {});
+    const result = await execute({ client: mockApi }, {});
 
     expect(mockApi.getDocumentationPage).toHaveBeenCalledWith(
       '/open-finance-us/documentation/quick-start-guide/index.md'
@@ -26,7 +26,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual([]);

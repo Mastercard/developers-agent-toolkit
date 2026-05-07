@@ -15,7 +15,10 @@ describe('execute', () => {
     const mockResult = 'mock documentation page content';
     mockApi.getDocumentationPage.mockResolvedValue(mockResult);
 
-    const result = await execute({}, mockApi, { pagePath: '/test/page.md' });
+    const result = await execute(
+      { client: mockApi },
+      { pagePath: '/test/page.md' }
+    );
 
     expect(mockApi.getDocumentationPage).toHaveBeenCalledWith('/test/page.md');
     expect(result).toBe(mockResult);
@@ -24,7 +27,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['pagePath']);

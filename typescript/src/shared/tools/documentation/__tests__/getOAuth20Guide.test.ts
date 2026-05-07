@@ -21,7 +21,10 @@ describe('execute', () => {
       const mockResult = 'mock OAuth 2.0 guide content';
       mockApi.getDocumentationPage.mockResolvedValue(mockResult);
 
-      const result = await execute({}, mockApi, { language: language as any });
+      const result = await execute(
+        { client: mockApi },
+        { language: language as any }
+      );
 
       expect(mockApi.getDocumentationPage).toHaveBeenCalledWith(
         '/platform/documentation/authentication/using-oauth-2-to-access-mastercard-apis/index.md'
@@ -44,7 +47,10 @@ describe('execute', () => {
         text: jest.fn().mockResolvedValue(mockGithubContent),
       } as any);
 
-      const result = await execute({}, mockApi, { language: language as any });
+      const result = await execute(
+        { client: mockApi },
+        { language: language as any }
+      );
 
       expect(mockFetch).toHaveBeenCalledWith(
         `https://raw.githubusercontent.com/Mastercard/${expectedRepo}/refs/heads/main/README.md`
@@ -58,7 +64,7 @@ describe('execute', () => {
     mockFetch.mockResolvedValue({ ok: false } as any);
     mockApi.getDocumentationPage.mockResolvedValue(mockApiResult);
 
-    const result = await execute({}, mockApi, { language: 'java' });
+    const result = await execute({ client: mockApi }, { language: 'java' });
 
     expect(mockFetch).toHaveBeenCalledWith(
       'https://raw.githubusercontent.com/Mastercard/oauth2-client-java/refs/heads/main/README.md'
@@ -72,7 +78,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['language']);
@@ -82,7 +88,7 @@ describe('getParameters', () => {
   });
 
   it('should not accept languages unsupported by OAuth 2.0', () => {
-    const schema = getParameters({});
+    const schema = getParameters({ client: mockApi });
     expect(schema.safeParse({ language: 'c#' }).success).toBe(false);
     expect(schema.safeParse({ language: 'python' }).success).toBe(false);
     expect(schema.safeParse({ language: 'golang' }).success).toBe(false);

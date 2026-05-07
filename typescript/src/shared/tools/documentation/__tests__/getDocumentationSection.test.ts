@@ -15,10 +15,13 @@ describe('execute', () => {
     const mockResult = 'mock documentation section content';
     mockApi.getDocumentationSection.mockResolvedValue(mockResult);
 
-    const result = await execute({}, mockApi, {
-      serviceId: 'test-service',
-      sectionId: 'test-section',
-    });
+    const result = await execute(
+      { client: mockApi },
+      {
+        serviceId: 'test-service',
+        sectionId: 'test-section',
+      }
+    );
 
     expect(mockApi.getDocumentationSection).toHaveBeenCalledWith(
       'test-service',
@@ -31,9 +34,12 @@ describe('execute', () => {
     const mockResult = 'mock documentation section content';
     mockApi.getDocumentationSection.mockResolvedValue(mockResult);
 
-    const result = await execute({ serviceId: 'context-service' }, mockApi, {
-      sectionId: 'test-section',
-    });
+    const result = await execute(
+      { client: mockApi, serviceId: 'context-service' },
+      {
+        sectionId: 'test-section',
+      }
+    );
 
     expect(mockApi.getDocumentationSection).toHaveBeenCalledWith(
       'context-service',
@@ -45,7 +51,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['serviceId', 'sectionId']);
@@ -53,7 +59,10 @@ describe('getParameters', () => {
   });
 
   it('should return the correct parameters if serviceId is specified in context', () => {
-    const parameters = getParameters({ serviceId: 'test-service' });
+    const parameters = getParameters({
+      client: mockApi,
+      serviceId: 'test-service',
+    });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['sectionId']);
