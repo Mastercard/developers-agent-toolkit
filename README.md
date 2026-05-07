@@ -28,6 +28,7 @@ The toolkit provides the following tools for agents to use:
 * `get-documentation-section-content`: Retrieves the complete content for a specific documentation section.
 * `get-documentation-page`: Retrieves the complete content of a specific documentation page.
 * `get-oauth10a-integration-guide`: Retrieves the comprehensive OAuth 1.0a integration guide.
+* `get-oauth20-integration-guide`: Retrieves the comprehensive OAuth 2.0 integration guide.
 * `get-openfinance-integration-guide`: Retrieves the comprehensive Open Finance integration guide.
 
 ### API Operations

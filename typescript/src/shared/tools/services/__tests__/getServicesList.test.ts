@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/services/getServicesList';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -17,7 +15,7 @@ describe('execute', () => {
     const mockResult = 'mock services list';
     mockApi.listServices.mockResolvedValue(mockResult);
 
-    const result = await execute({}, {});
+    const result = await execute({}, mockApi, {});
 
     expect(mockApi.listServices).toHaveBeenCalledTimes(1);
     expect(result).toBe(mockResult);

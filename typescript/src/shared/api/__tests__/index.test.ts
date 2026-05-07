@@ -1,4 +1,4 @@
-import { MastercardAPIClient } from '@/shared/api';
+import { defaultDevelopersApi, MastercardAPIClient } from '@/shared/api';
 import fetch, { RequestInfo, Response } from 'node-fetch';
 
 const mcd = (path: string) => {
@@ -7,6 +7,12 @@ const mcd = (path: string) => {
 
 const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 jest.mock('node-fetch');
+
+describe('defaultDevelopersApi', () => {
+  it('uses the default MastercardAPIClient implementation', () => {
+    expect(defaultDevelopersApi).toBeInstanceOf(MastercardAPIClient);
+  });
+});
 
 describe('MastercardAPIClient', () => {
   let client: MastercardAPIClient;

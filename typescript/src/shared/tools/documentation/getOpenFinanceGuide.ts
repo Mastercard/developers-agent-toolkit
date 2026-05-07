@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
+import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
 
 const getDescription = (_context: ToolContext): string => {
   return `Retrieves the comprehensive Open Finance (previously known as Open Banking) integration 
@@ -13,14 +12,18 @@ export const getParameters = (_context: ToolContext): z.ZodObject<any> => {
 
 export const execute = async (
   _context: ToolContext,
+  developersApi: DevelopersApi,
   _params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  return await api.getDocumentationPage(
+  return await developersApi.getDocumentationPage(
     '/open-finance-us/documentation/quick-start-guide/index.md'
   );
 };
 
-export const getOpenFinanceGuide = (context: ToolContext): Tool => ({
+export const getOpenFinanceGuide = (
+  context: ToolContext,
+  developersApi: DevelopersApi
+): Tool => ({
   name: 'get-openfinance-integration-guide',
   title: 'Get Open Finance Integration Guide',
   description: getDescription(context),
@@ -31,5 +34,5 @@ export const getOpenFinanceGuide = (context: ToolContext): Tool => ({
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, params),
+  execute: (params) => execute(context, developersApi, params),
 });

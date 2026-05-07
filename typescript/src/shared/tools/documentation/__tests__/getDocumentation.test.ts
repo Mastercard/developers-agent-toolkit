@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/documentation/getDocumentation';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -17,7 +15,7 @@ describe('execute', () => {
     const mockResult = 'mock documentation';
     mockApi.getDocumentation.mockResolvedValue(mockResult);
 
-    const result = await execute({}, { serviceId: 'test-service' });
+    const result = await execute({}, mockApi, { serviceId: 'test-service' });
 
     expect(mockApi.getDocumentation).toHaveBeenCalledWith('test-service');
     expect(result).toBe(mockResult);
@@ -27,7 +25,7 @@ describe('execute', () => {
     const mockResult = 'mock documentation';
     mockApi.getDocumentation.mockResolvedValue(mockResult);
 
-    const result = await execute({ serviceId: 'context-service' }, {});
+    const result = await execute({ serviceId: 'context-service' }, mockApi, {});
 
     expect(mockApi.getDocumentation).toHaveBeenCalledWith('context-service');
     expect(result).toBe(mockResult);

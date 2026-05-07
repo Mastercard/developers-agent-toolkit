@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
+import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
 
 const getDescription = (context: ToolContext): string => {
   const baseDescription = `Provides an overview of all available documentation for a specific Mastercard service
@@ -35,13 +34,17 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
 
 export const execute = async (
   context: ToolContext,
+  developersApi: DevelopersApi,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
   const serviceId = context.serviceId || params.serviceId;
-  return await api.getDocumentation(serviceId);
+  return await developersApi.getDocumentation(serviceId);
 };
 
-export const getDocumentation = (context: ToolContext): Tool => ({
+export const getDocumentation = (
+  context: ToolContext,
+  developersApi: DevelopersApi
+): Tool => ({
   name: 'get-documentation',
   title: 'Get Documentation',
   description: getDescription(context),
@@ -52,5 +55,5 @@ export const getDocumentation = (context: ToolContext): Tool => ({
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, params),
+  execute: (params) => execute(context, developersApi, params),
 });

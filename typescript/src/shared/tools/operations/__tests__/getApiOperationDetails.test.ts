@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/operations/getApiOperationDetails';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -17,14 +15,11 @@ describe('execute', () => {
     const mockResult = 'mock operation details';
     mockApi.getApiOperationDetails.mockResolvedValue(mockResult);
 
-    const result = await execute(
-      {},
-      {
-        apiSpecificationPath: '/test/path.yaml',
-        method: 'GET',
-        path: '/test/endpoint',
-      }
-    );
+    const result = await execute({}, mockApi, {
+      apiSpecificationPath: '/test/path.yaml',
+      method: 'GET',
+      path: '/test/endpoint',
+    });
 
     expect(mockApi.getApiOperationDetails).toHaveBeenCalledWith(
       '/test/path.yaml',
@@ -40,6 +35,7 @@ describe('execute', () => {
 
     const result = await execute(
       { apiSpecificationPath: '/context/path.yaml' },
+      mockApi,
       {
         method: 'POST',
         path: '/context/endpoint',

@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
+import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
 
 const getDescription = (context: ToolContext): string => {
   const baseDescription = `Provides detailed information about a specific API operation including parameter definitions,
@@ -27,15 +26,19 @@ or /open-finance-us/swagger/openbanking-us.yaml)
 - path (str): The API endpoint path from the specification (e.g., /payments, /accounts/{id})`;
 };
 
+const httpMethod = z
+  .string()
+  .transform((value) => value.toUpperCase())
+  .pipe(z.enum(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']));
+
 export const getParameters = (context: ToolContext): z.ZodObject<any> => {
   const baseParams = {
-    method: z
-      .string()
-      .describe(
-        'The HTTP method of the operation (e.g., GET, POST, PUT, DELETE)'
-      ),
+    method: httpMethod.describe(
+      'The HTTP method of the operation (e.g., GET, POST, PUT, DELETE)'
+    ),
     path: z
       .string()
+      .startsWith('/')
       .describe(
         'The API endpoint path from the specification (e.g., /payments, /accounts/{id})'
       ),
@@ -48,6 +51,7 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
   return z.object({
     apiSpecificationPath: z
       .string()
+      .startsWith('/')
       .describe(
         'The path to the API specification (e.g., /open-finance-us/swagger/openbanking-us.yaml)'
       ),
@@ -57,16 +61,17 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
 
 export const execute = async (
   context: ToolContext,
+  developersApi: DevelopersApi,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
   if (context.apiSpecificationPath) {
-    return await api.getApiOperationDetails(
+    return await developersApi.getApiOperationDetails(
       context.apiSpecificationPath,
       params.method,
       params.path
     );
   } else {
-    return await api.getApiOperationDetails(
+    return await developersApi.getApiOperationDetails(
       params.apiSpecificationPath,
       params.method,
       params.path
@@ -74,7 +79,10 @@ export const execute = async (
   }
 };
 
-export const getApiOperationDetails = (context: ToolContext): Tool => ({
+export const getApiOperationDetails = (
+  context: ToolContext,
+  developersApi: DevelopersApi
+): Tool => ({
   name: 'get-api-operation-details',
   title: 'Get API Operation Details',
   description: getDescription(context),
@@ -85,5 +93,5 @@ export const getApiOperationDetails = (context: ToolContext): Tool => ({
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, params),
+  execute: (params) => execute(context, developersApi, params),
 });

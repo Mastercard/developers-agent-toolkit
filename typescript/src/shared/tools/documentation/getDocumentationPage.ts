@@ -1,6 +1,5 @@
 import { z } from 'zod';
-import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
+import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
 
 const getDescription = (_context: ToolContext): string => {
   return `Retrieves the complete content of a specific documentation page.
@@ -14,6 +13,7 @@ export const getParameters = (_context: ToolContext): z.ZodObject<any> => {
     pagePath: z
       .string()
       .min(1)
+      .startsWith('/')
       .describe(
         "The full path to the documentation page (e.g., '/send/documentation/use-cases/index.md')"
       ),
@@ -22,12 +22,16 @@ export const getParameters = (_context: ToolContext): z.ZodObject<any> => {
 
 export const execute = async (
   _context: ToolContext,
+  developersApi: DevelopersApi,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  return await api.getDocumentationPage(params.pagePath);
+  return await developersApi.getDocumentationPage(params.pagePath);
 };
 
-export const getDocumentationPage = (context: ToolContext): Tool => ({
+export const getDocumentationPage = (
+  context: ToolContext,
+  developersApi: DevelopersApi
+): Tool => ({
   name: 'get-documentation-page',
   title: 'Get Documentation Page',
   description: getDescription(context),
@@ -38,5 +42,5 @@ export const getDocumentationPage = (context: ToolContext): Tool => ({
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, params),
+  execute: (params) => execute(context, developersApi, params),
 });

@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/documentation/getOpenFinanceGuide';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -17,7 +15,7 @@ describe('execute', () => {
     const mockResult = 'mock Open Finance guide content';
     mockApi.getDocumentationPage.mockResolvedValue(mockResult);
 
-    const result = await execute({}, {});
+    const result = await execute({}, mockApi, {});
 
     expect(mockApi.getDocumentationPage).toHaveBeenCalledWith(
       '/open-finance-us/documentation/quick-start-guide/index.md'

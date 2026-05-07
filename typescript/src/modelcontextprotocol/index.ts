@@ -3,6 +3,9 @@ import { tools } from '@/shared/tools';
 import { ToolContext } from '@/shared/types';
 import { version } from '../../package.json';
 
+export type { DevelopersApi, Tool, ToolContext } from '@/shared/types';
+export { tools } from '@/shared/tools';
+
 export interface MastercardDevelopersAgentToolkitConfig {
   service?: string;
   apiSpecification?: string;

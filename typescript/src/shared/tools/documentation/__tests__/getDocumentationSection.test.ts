@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/documentation/getDocumentationSection';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -17,10 +15,10 @@ describe('execute', () => {
     const mockResult = 'mock documentation section content';
     mockApi.getDocumentationSection.mockResolvedValue(mockResult);
 
-    const result = await execute(
-      {},
-      { serviceId: 'test-service', sectionId: 'test-section' }
-    );
+    const result = await execute({}, mockApi, {
+      serviceId: 'test-service',
+      sectionId: 'test-section',
+    });
 
     expect(mockApi.getDocumentationSection).toHaveBeenCalledWith(
       'test-service',
@@ -33,10 +31,9 @@ describe('execute', () => {
     const mockResult = 'mock documentation section content';
     mockApi.getDocumentationSection.mockResolvedValue(mockResult);
 
-    const result = await execute(
-      { serviceId: 'context-service' },
-      { sectionId: 'test-section' }
-    );
+    const result = await execute({ serviceId: 'context-service' }, mockApi, {
+      sectionId: 'test-section',
+    });
 
     expect(mockApi.getDocumentationSection).toHaveBeenCalledWith(
       'context-service',
