@@ -1,14 +1,14 @@
 import { z } from 'zod';
 import fetch from 'node-fetch';
-import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
+import { Tool, ToolContext } from '@/shared/types';
 
-const getDescription = (_context: ToolContext): string => {
+const getDescription = (): string => {
   return `Retrieves the comprehensive OAuth 1.0a integration guide including step-by-step instructions,
 code examples, and best practices for Mastercard APIs. Optionally specify a programming language
 to get language-specific examples and guidance.`;
 };
 
-export const getParameters = (_context: ToolContext): z.ZodObject<any> => {
+export const getParameters = (): z.ZodObject<any> => {
   return z.object({
     language: z
       .enum([
@@ -29,8 +29,7 @@ export const getParameters = (_context: ToolContext): z.ZodObject<any> => {
 };
 
 export const execute = async (
-  _context: ToolContext,
-  developersApi: DevelopersApi,
+  context: ToolContext,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
   const basePath =
@@ -69,22 +68,19 @@ export const execute = async (
   }
 
   // Fallback to fetching the general OAuth 1.0a guide
-  return await developersApi.getDocumentationPage(basePath);
+  return await context.client.getDocumentationPage(basePath);
 };
 
-export const getOAuth10aGuide = (
-  context: ToolContext,
-  developersApi: DevelopersApi
-): Tool => ({
+export const getOAuth10aGuide = (context: ToolContext): Tool => ({
   name: 'get-oauth10a-integration-guide',
   title: 'Get OAuth 1.0a Integration Guide',
-  description: getDescription(context),
-  parameters: getParameters(context),
+  description: getDescription(),
+  parameters: getParameters(),
   annotations: {
     readOnlyHint: true,
     destructiveHint: false,
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, developersApi, params),
+  execute: (params) => execute(context, params),
 });

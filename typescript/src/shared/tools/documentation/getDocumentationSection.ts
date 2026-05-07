@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
+import { Tool, ToolContext } from '@/shared/types';
 
 const getDescription = (context: ToolContext): string => {
   const baseDescription = `
-Retrieves the complete content for a specific documentation section. 
+Retrieves the complete content for a specific documentation section.
 IMPORTANT: A section is not a single page, but rather a collection of pages that are grouped together.
 `;
 
@@ -51,20 +51,15 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
 
 export const execute = async (
   context: ToolContext,
-  developersApi: DevelopersApi,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  const serviceId = context.serviceId || params.serviceId;
-  return await developersApi.getDocumentationSection(
-    serviceId,
+  return await context.client.getDocumentationSection(
+    context.serviceId || params.serviceId,
     params.sectionId
   );
 };
 
-export const getDocumentationSection = (
-  context: ToolContext,
-  developersApi: DevelopersApi
-): Tool => ({
+export const getDocumentationSection = (context: ToolContext): Tool => ({
   name: 'get-documentation-section-content',
   title: 'Get Documentation Section Content',
   description: getDescription(context),
@@ -75,5 +70,5 @@ export const getDocumentationSection = (
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, developersApi, params),
+  execute: (params) => execute(context, params),
 });

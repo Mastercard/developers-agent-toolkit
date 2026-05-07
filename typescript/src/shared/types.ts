@@ -27,6 +27,7 @@ export interface DevelopersApi {
 }
 
 export interface ToolContext {
+  client: DevelopersApi;
   serviceId?: string;
   apiSpecificationPath?: string;
 }

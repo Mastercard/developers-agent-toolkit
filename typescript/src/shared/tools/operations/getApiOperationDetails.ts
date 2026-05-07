@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
+import { Tool, ToolContext } from '@/shared/types';
 
 const getDescription = (context: ToolContext): string => {
   const baseDescription = `Provides detailed information about a specific API operation including parameter definitions,
@@ -61,28 +61,16 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
 
 export const execute = async (
   context: ToolContext,
-  developersApi: DevelopersApi,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  if (context.apiSpecificationPath) {
-    return await developersApi.getApiOperationDetails(
-      context.apiSpecificationPath,
-      params.method,
-      params.path
-    );
-  } else {
-    return await developersApi.getApiOperationDetails(
-      params.apiSpecificationPath,
-      params.method,
-      params.path
-    );
-  }
+  return await context.client.getApiOperationDetails(
+    context.apiSpecificationPath || params.apiSpecificationPath,
+    params.method,
+    params.path
+  );
 };
 
-export const getApiOperationDetails = (
-  context: ToolContext,
-  developersApi: DevelopersApi
-): Tool => ({
+export const getApiOperationDetails = (context: ToolContext): Tool => ({
   name: 'get-api-operation-details',
   title: 'Get API Operation Details',
   description: getDescription(context),
@@ -93,5 +81,5 @@ export const getApiOperationDetails = (
     idempotentHint: true,
     openWorldHint: true,
   },
-  execute: (params) => execute(context, developersApi, params),
+  execute: (params) => execute(context, params),
 });

@@ -1,5 +1,4 @@
-import { defaultDevelopersApi } from '@/shared/api';
-import { DevelopersApi, Tool, ToolContext } from '@/shared/types';
+import { Tool, ToolContext } from '@/shared/types';
 
 // Documentation tools
 import { getDocumentation } from '@/shared/tools/documentation/getDocumentation';
@@ -16,22 +15,19 @@ import { getServicesList } from '@/shared/tools/services/getServicesList';
 import { getApiOperationList } from '@/shared/tools/operations/getApiOperationList';
 import { getApiOperationDetails } from '@/shared/tools/operations/getApiOperationDetails';
 
-export const tools = (
-  context: ToolContext = {},
-  developersApi: DevelopersApi = defaultDevelopersApi
-): Tool[] => [
+export const tools = (context: ToolContext): Tool[] => [
   // Services
-  getServicesList(context, developersApi),
+  getServicesList(context),
 
   // Documentation
-  getDocumentation(context, developersApi),
-  getDocumentationSection(context, developersApi),
-  getDocumentationPage(context, developersApi),
-  getOAuth10aGuide(context, developersApi),
-  getOAuth20Guide(context, developersApi),
-  getOpenFinanceGuide(context, developersApi),
+  getDocumentation(context),
+  getDocumentationSection(context),
+  getDocumentationPage(context),
+  getOAuth10aGuide(context),
+  getOAuth20Guide(context),
+  getOpenFinanceGuide(context),
 
   // API Operations
-  getApiOperationList(context, developersApi),
-  getApiOperationDetails(context, developersApi),
+  getApiOperationList(context),
+  getApiOperationDetails(context),
 ];
