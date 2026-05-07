@@ -5,6 +5,7 @@ import { getDocumentation } from '@/shared/tools/documentation/getDocumentation'
 import { getDocumentationSection } from '@/shared/tools/documentation/getDocumentationSection';
 import { getDocumentationPage } from '@/shared/tools/documentation/getDocumentationPage';
 import { getOAuth10aGuide } from '@/shared/tools/documentation/getOAuth10aGuide';
+import { getOAuth20Guide } from '@/shared/tools/documentation/getOAuth20Guide';
 import { getOpenFinanceGuide } from '@/shared/tools/documentation/getOpenFinanceGuide';
 
 // Services tools
@@ -23,6 +24,7 @@ export const tools = (context: ToolContext): Tool[] => [
   getDocumentationSection(context),
   getDocumentationPage(context),
   getOAuth10aGuide(context),
+  getOAuth20Guide(context),
   getOpenFinanceGuide(context),
 
   // API Operations

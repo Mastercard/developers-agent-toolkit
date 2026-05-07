@@ -10,7 +10,24 @@ export interface Tool {
   execute: (params: any) => Promise<string>;
 }
 
+export interface DevelopersApi {
+  listServices(): Promise<string>;
+  getDocumentation(serviceId: string): Promise<string>;
+  getDocumentationSection(
+    serviceId: string,
+    sectionId: string
+  ): Promise<string>;
+  getDocumentationPage(pagePath: string): Promise<string>;
+  getApiOperations(apiSpecificationPath: string): Promise<string>;
+  getApiOperationDetails(
+    apiSpecificationPath: string,
+    method: string,
+    path: string
+  ): Promise<string>;
+}
+
 export interface ToolContext {
+  client: DevelopersApi;
   serviceId?: string;
   apiSpecificationPath?: string;
 }

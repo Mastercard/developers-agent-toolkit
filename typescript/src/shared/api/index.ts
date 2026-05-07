@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import fetch from 'node-fetch';
 
+import type { DevelopersApi } from '@/shared/types';
+
 const PathSchema = z
   .string()
   .min(1, 'Path must be a non-empty string')
@@ -106,5 +108,4 @@ export class MastercardAPIClient {
   }
 }
 
-const api = new MastercardAPIClient();
-export default api;
+export const defaultDevelopersApi: DevelopersApi = new MastercardAPIClient();

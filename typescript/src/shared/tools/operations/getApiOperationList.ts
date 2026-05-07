@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
 
 const getDescription = (context: ToolContext): string => {
-  const baseDescription = `Provides a summary of all API operations for a specific Mastercard API 
+  const baseDescription = `Provides a summary of all API operations for a specific Mastercard API
 specification including HTTP methods, request paths, titles, and descriptions.`;
 
   if (context.apiSpecificationPath) {
@@ -26,6 +25,7 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
   return z.object({
     apiSpecificationPath: z
       .string()
+      .startsWith('/')
       .describe(
         'The path to the API specification file (e.g., /open-finance-us/swagger/openbanking-us.yaml)'
       ),
@@ -36,11 +36,9 @@ export const execute = async (
   context: ToolContext,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  if (context.apiSpecificationPath) {
-    return await api.getApiOperations(context.apiSpecificationPath);
-  } else {
-    return await api.getApiOperations(params.apiSpecificationPath);
-  }
+  return await context.client.getApiOperations(
+    context.apiSpecificationPath || params.apiSpecificationPath
+  );
 };
 
 export const getApiOperationList = (context: ToolContext): Tool => ({

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
 
 const getDescription = (context: ToolContext): string => {
   const baseDescription = `Provides detailed information about a specific API operation including parameter definitions,
@@ -27,15 +26,19 @@ or /open-finance-us/swagger/openbanking-us.yaml)
 - path (str): The API endpoint path from the specification (e.g., /payments, /accounts/{id})`;
 };
 
+const httpMethod = z
+  .string()
+  .transform((value) => value.toUpperCase())
+  .pipe(z.enum(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']));
+
 export const getParameters = (context: ToolContext): z.ZodObject<any> => {
   const baseParams = {
-    method: z
-      .string()
-      .describe(
-        'The HTTP method of the operation (e.g., GET, POST, PUT, DELETE)'
-      ),
+    method: httpMethod.describe(
+      'The HTTP method of the operation (e.g., GET, POST, PUT, DELETE)'
+    ),
     path: z
       .string()
+      .startsWith('/')
       .describe(
         'The API endpoint path from the specification (e.g., /payments, /accounts/{id})'
       ),
@@ -48,6 +51,7 @@ export const getParameters = (context: ToolContext): z.ZodObject<any> => {
   return z.object({
     apiSpecificationPath: z
       .string()
+      .startsWith('/')
       .describe(
         'The path to the API specification (e.g., /open-finance-us/swagger/openbanking-us.yaml)'
       ),
@@ -59,19 +63,11 @@ export const execute = async (
   context: ToolContext,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  if (context.apiSpecificationPath) {
-    return await api.getApiOperationDetails(
-      context.apiSpecificationPath,
-      params.method,
-      params.path
-    );
-  } else {
-    return await api.getApiOperationDetails(
-      params.apiSpecificationPath,
-      params.method,
-      params.path
-    );
-  }
+  return await context.client.getApiOperationDetails(
+    context.apiSpecificationPath || params.apiSpecificationPath,
+    params.method,
+    params.path
+  );
 };
 
 export const getApiOperationDetails = (context: ToolContext): Tool => ({

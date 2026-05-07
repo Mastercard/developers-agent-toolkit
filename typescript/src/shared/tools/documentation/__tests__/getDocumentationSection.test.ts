@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/documentation/getDocumentationSection';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -18,8 +16,11 @@ describe('execute', () => {
     mockApi.getDocumentationSection.mockResolvedValue(mockResult);
 
     const result = await execute(
-      {},
-      { serviceId: 'test-service', sectionId: 'test-section' }
+      { client: mockApi },
+      {
+        serviceId: 'test-service',
+        sectionId: 'test-section',
+      }
     );
 
     expect(mockApi.getDocumentationSection).toHaveBeenCalledWith(
@@ -34,8 +35,10 @@ describe('execute', () => {
     mockApi.getDocumentationSection.mockResolvedValue(mockResult);
 
     const result = await execute(
-      { serviceId: 'context-service' },
-      { sectionId: 'test-section' }
+      { client: mockApi, serviceId: 'context-service' },
+      {
+        sectionId: 'test-section',
+      }
     );
 
     expect(mockApi.getDocumentationSection).toHaveBeenCalledWith(
@@ -48,7 +51,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['serviceId', 'sectionId']);
@@ -56,7 +59,10 @@ describe('getParameters', () => {
   });
 
   it('should return the correct parameters if serviceId is specified in context', () => {
-    const parameters = getParameters({ serviceId: 'test-service' });
+    const parameters = getParameters({
+      client: mockApi,
+      serviceId: 'test-service',
+    });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['sectionId']);

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { Tool, ToolContext } from '@/shared/types';
-import api from '@/shared/api';
 
 const getDescription = (context: ToolContext): string => {
   const baseDescription = `Provides an overview of all available documentation for a specific Mastercard service
@@ -37,8 +36,9 @@ export const execute = async (
   context: ToolContext,
   params: z.infer<ReturnType<typeof getParameters>>
 ): Promise<string> => {
-  const serviceId = context.serviceId || params.serviceId;
-  return await api.getDocumentation(serviceId);
+  return await context.client.getDocumentation(
+    context.serviceId || params.serviceId
+  );
 };
 
 export const getDocumentation = (context: ToolContext): Tool => ({

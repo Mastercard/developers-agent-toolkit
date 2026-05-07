@@ -1,7 +1,11 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { defaultDevelopersApi } from '@/shared/api';
 import { tools } from '@/shared/tools';
 import { ToolContext } from '@/shared/types';
 import { version } from '../../package.json';
+
+export type { DevelopersApi, Tool, ToolContext } from '@/shared/types';
+export { tools } from '@/shared/tools';
 
 export interface MastercardDevelopersAgentToolkitConfig {
   service?: string;
@@ -61,7 +65,7 @@ export class MastercardDevelopersAgentToolkit extends McpServer {
 export function buildContext(
   config: MastercardDevelopersAgentToolkitConfig
 ): ToolContext {
-  const context: ToolContext = {};
+  const context: ToolContext = { client: defaultDevelopersApi };
   if (config.service != null) {
     const serviceId = parseServiceIdFromUrl(config.service);
     if (serviceId == null) {

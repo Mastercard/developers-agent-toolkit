@@ -2,11 +2,9 @@ import {
   execute,
   getParameters,
 } from '@/shared/tools/operations/getApiOperationDetails';
-import api from '@/shared/api';
+import { createMockApi } from '@/tests/mockDevelopersApi';
 
-jest.mock<typeof api>('@/shared/api');
-
-const mockApi = api as jest.Mocked<typeof api>;
+const mockApi = createMockApi();
 
 describe('execute', () => {
   beforeEach(() => {
@@ -18,7 +16,7 @@ describe('execute', () => {
     mockApi.getApiOperationDetails.mockResolvedValue(mockResult);
 
     const result = await execute(
-      {},
+      { client: mockApi },
       {
         apiSpecificationPath: '/test/path.yaml',
         method: 'GET',
@@ -39,7 +37,7 @@ describe('execute', () => {
     mockApi.getApiOperationDetails.mockResolvedValue(mockResult);
 
     const result = await execute(
-      { apiSpecificationPath: '/context/path.yaml' },
+      { client: mockApi, apiSpecificationPath: '/context/path.yaml' },
       {
         method: 'POST',
         path: '/context/endpoint',
@@ -57,7 +55,7 @@ describe('execute', () => {
 
 describe('getParameters', () => {
   it('should return the correct parameters if no context', () => {
-    const parameters = getParameters({});
+    const parameters = getParameters({ client: mockApi });
 
     const fields = Object.keys(parameters.shape);
     expect(fields).toEqual(['apiSpecificationPath', 'method', 'path']);
@@ -66,6 +64,7 @@ describe('getParameters', () => {
 
   it('should return the correct parameters if apiSpecificationPath is specified in context', () => {
     const parameters = getParameters({
+      client: mockApi,
       apiSpecificationPath: '/test/path.yaml',
     });
 

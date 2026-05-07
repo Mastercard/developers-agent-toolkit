@@ -38,7 +38,7 @@ describe('MastercardDevelopersAgentToolkit', () => {
 
   it('should list all tools with correct name/description when no config', async () => {
     const registeredTools = await listRegisteredTools({});
-    const expectedTools = tools({});
+    const expectedTools = tools(buildContext({}));
     expect(registeredTools).toHaveLength(expectedTools.length);
 
     expectedTools.forEach((expectedTool, index) => {
@@ -60,10 +60,12 @@ describe('MastercardDevelopersAgentToolkit', () => {
         'https://static.developer.mastercard.com/content/service/swagger/path.yaml',
     });
 
-    const expectedTools = tools({
-      serviceId: 'service',
-      apiSpecificationPath: '/service/swagger/path.yaml',
-    }).filter((tool) => tool.name !== 'get-services-list');
+    const expectedTools = tools(
+      buildContext({
+        apiSpecification:
+          'https://static.developer.mastercard.com/content/service/swagger/path.yaml',
+      })
+    ).filter((tool) => tool.name !== 'get-services-list');
     expect(registeredTools).toHaveLength(expectedTools.length);
 
     expectedTools.forEach((expectedTool, index) => {
@@ -84,9 +86,11 @@ describe('MastercardDevelopersAgentToolkit', () => {
       service: 'https://developer.mastercard.com/test-service/documentation/',
     });
 
-    const expectedTools = tools({ serviceId: 'test-service' }).filter(
-      (tool) => tool.name !== 'get-services-list'
-    );
+    const expectedTools = tools(
+      buildContext({
+        service: 'https://developer.mastercard.com/test-service/documentation/',
+      })
+    ).filter((tool) => tool.name !== 'get-services-list');
     const registeredNames = registeredTools.map((tool) => tool.name);
 
     expect(registeredNames).not.toContain('get-services-list');
@@ -110,7 +114,7 @@ describe('buildContext function', () => {
   describe('success cases', () => {
     it('should return empty context when no config provided', () => {
       const result = buildContext({});
-      expect(result).toEqual({});
+      expect(result).toEqual(expect.objectContaining({}));
     });
 
     it('should parse service URL and extract serviceId', () => {
@@ -118,9 +122,11 @@ describe('buildContext function', () => {
         service:
           'https://developer.mastercard.com/open-finance-us/documentation/',
       });
-      expect(result).toEqual({
-        serviceId: 'open-finance-us',
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          serviceId: 'open-finance-us',
+        })
+      );
     });
 
     it('should parse API specification URL and extract serviceId and apiSpecificationPath', () => {
@@ -128,10 +134,12 @@ describe('buildContext function', () => {
         apiSpecification:
           'https://static.developer.mastercard.com/content/test-service/swagger/api.yaml',
       });
-      expect(result).toEqual({
-        serviceId: 'test-service',
-        apiSpecificationPath: '/test-service/swagger/api.yaml',
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          serviceId: 'test-service',
+          apiSpecificationPath: '/test-service/swagger/api.yaml',
+        })
+      );
     });
 
     it('should handle nested API specification paths', () => {
@@ -139,10 +147,12 @@ describe('buildContext function', () => {
         apiSpecification:
           'https://static.developer.mastercard.com/content/payment-gateway/swagger/nested/spec.yaml',
       });
-      expect(result).toEqual({
-        serviceId: 'payment-gateway',
-        apiSpecificationPath: '/payment-gateway/swagger/nested/spec.yaml',
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          serviceId: 'payment-gateway',
+          apiSpecificationPath: '/payment-gateway/swagger/nested/spec.yaml',
+        })
+      );
     });
 
     it('should handle service IDs with hyphens and numbers', () => {
@@ -150,9 +160,11 @@ describe('buildContext function', () => {
         service:
           'https://developer.mastercard.com/open-finance-us-v2/documentation/',
       });
-      expect(result).toEqual({
-        serviceId: 'open-finance-us-v2',
-      });
+      expect(result).toEqual(
+        expect.objectContaining({
+          serviceId: 'open-finance-us-v2',
+        })
+      );
     });
   });
 

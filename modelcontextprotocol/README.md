@@ -14,7 +14,7 @@ This MCP server acts as a bridge between MCP clients and Mastercard Developers r
 - List available Mastercard services
 - Query API specifications and their operations
 - Access documentation for each service
-- Retrieve integration guides for OAuth 1.0a and Open Finance
+- Retrieve integration guides for OAuth 1.0a, OAuth 2.0, and Open Finance
 
 ## Available Tools
 
@@ -39,6 +39,8 @@ This MCP server acts as a bridge between MCP clients and Mastercard Developers r
 ### Integration Guides
 
 - **`get-oauth10a-integration-guide`**: Retrieves the comprehensive OAuth 1.0a integration guide including step-by-step instructions, code examples, and best practices for Mastercard APIs.
+
+- **`get-oauth20-integration-guide`**: Retrieves the comprehensive OAuth 2.0 integration guide including step-by-step instructions, code examples, and best practices for Mastercard APIs.
 
 - **`get-openfinance-integration-guide`**: Retrieves the comprehensive Open Finance integration guide including setup instructions, API usage examples, and implementation best practices.
 
