@@ -59,10 +59,12 @@ export const execute = async (
 
     if (repositoryName !== undefined) {
       const githubUrl = `https://raw.githubusercontent.com/Mastercard/${repositoryName}/refs/heads/main/README.md`;
-      const response = await fetch(githubUrl);
-
-      if (response.ok) {
-        return await response.text();
+      if (context.client.fetchGithubGuide !== undefined) {
+        const content = await context.client.fetchGithubGuide(githubUrl).catch(() => undefined);
+        if (content !== undefined) return content;
+      } else {
+        const response = await fetch(githubUrl);
+        if (response.ok) return await response.text();
       }
     }
   }

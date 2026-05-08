@@ -24,6 +24,7 @@ export interface DevelopersApi {
     method: string,
     path: string
   ): Promise<string>;
+  fetchGithubGuide?(url: string): Promise<string>;
 }
 
 export interface ToolContext {
