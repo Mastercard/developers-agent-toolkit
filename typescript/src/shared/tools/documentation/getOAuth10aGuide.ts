@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import fetch from 'node-fetch';
 import { Tool, ToolContext } from '@/shared/types';
+import { fetchGithubReadme } from './githubReadme';
 
 const getDescription = (): string => {
   return `Retrieves the comprehensive OAuth 1.0a integration guide including step-by-step instructions,
@@ -58,15 +58,9 @@ export const execute = async (
     }
 
     if (repositoryName !== undefined) {
-      const githubUrl = `https://raw.githubusercontent.com/Mastercard/${repositoryName}/refs/heads/main/README.md`;
-      if (context.client.fetchGithubGuide !== undefined) {
-        const content = await context.client
-          .fetchGithubGuide(githubUrl)
-          .catch(() => undefined);
-        if (content !== undefined) return content;
-      } else {
-        const response = await fetch(githubUrl);
-        if (response.ok) return await response.text();
+      const content = await fetchGithubReadme(repositoryName, context);
+      if (content !== undefined) {
+        return content;
       }
     }
   }
