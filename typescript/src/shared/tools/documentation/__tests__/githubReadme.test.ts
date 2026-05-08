@@ -26,7 +26,9 @@ describe('fetchGithubReadme', () => {
   });
 
   it('returns undefined when fetchGithubGuide is provided but fails', async () => {
-    const fetchGithubGuide = jest.fn().mockRejectedValue(new Error('network error'));
+    const fetchGithubGuide = jest
+      .fn()
+      .mockRejectedValue(new Error('network error'));
 
     const result = await fetchGithubReadme('oauth1-signer-java', {
       client: { ...mockApi, fetchGithubGuide },
@@ -41,7 +43,9 @@ describe('fetchGithubReadme', () => {
       text: jest.fn().mockResolvedValue('github content'),
     } as any);
 
-    const result = await fetchGithubReadme('oauth1-signer-java', { client: mockApi });
+    const result = await fetchGithubReadme('oauth1-signer-java', {
+      client: mockApi,
+    });
 
     expect(mockFetch).toHaveBeenCalledWith(
       'https://raw.githubusercontent.com/Mastercard/oauth1-signer-java/refs/heads/main/README.md'
@@ -52,7 +56,9 @@ describe('fetchGithubReadme', () => {
   it('returns undefined when plain fetch response is not ok', async () => {
     mockFetch.mockResolvedValue({ ok: false } as any);
 
-    const result = await fetchGithubReadme('oauth1-signer-java', { client: mockApi });
+    const result = await fetchGithubReadme('oauth1-signer-java', {
+      client: mockApi,
+    });
 
     expect(result).toBeUndefined();
   });
