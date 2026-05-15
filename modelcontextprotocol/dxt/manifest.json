@@ -2,7 +2,7 @@
   "dxt_version": "0.1",
   "name": "mastercard-developers-mcp",
   "icon": "mastercard-icon.png",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "display_name": "Mastercard Developers MCP",
   "description": "Access Mastercard Developers APIs, documentation, and specifications through MCP",
   "long_description": "This extension provides seamless access to Mastercard Developers APIs, comprehensive documentation, and API specifications. It enables developers to query available services, retrieve detailed API operation information, access documentation sections, and get integration guides directly.\n\n**Key Features:**\n- List all available Mastercard services\n- Access comprehensive documentation and specific sections\n- Retrieve OAuth 1.0a and Open Finance integration guides\n- Get detailed API operation information including parameters and schemas\n- Query API specifications and operation details\n\n**Use Cases:**\n- API discovery and exploration\n- Documentation lookup during development\n- Integration planning and implementation\n- Authentication and authorization guidance",
@@ -61,6 +61,10 @@
     {
       "name": "oauth10a-integration-guide",
       "description": "Retrieves the comprehensive OAuth 1.0a integration guide including step-by-step instructions, code examples, and best practices for Mastercard APIs."
+    },
+    {
+      "name": "oauth20-integration-guide",
+      "description": "Retrieves the comprehensive OAuth 2.0 integration guide including step-by-step instructions, code examples, and best practices for Mastercard APIs."
     },
     {
       "name": "openfinance-integration-guide",
