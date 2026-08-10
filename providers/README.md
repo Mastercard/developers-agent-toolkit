@@ -2,7 +2,7 @@
 
 This directory contains plugins for different AI code editors and agent harnesses.
 
-Each provider has the same layout:
+Most providers share the same vendor-specific layout:
 
 ```
 providers/<provider>/plugin/
@@ -11,6 +11,10 @@ providers/<provider>/plugin/
 └── .<provider>-plugin/     # Provider-specific plugin manifest (plugin.json)
 ```
 
+The exception is `agent-plugins`, which follows the portable
+[Agent Plugins v1](https://agent-plugins.org/specification) layout instead: a
+root `plugin.json` (no `.<provider>-plugin/` subdirectory). See the table below.
+
 ## Providers
 
 | Provider | Plugin manifest | MCP config |
@@ -18,6 +22,16 @@ providers/<provider>/plugin/
 | `claude` | `.claude-plugin/plugin.json` | `.mcp.json` |
 | `codex`  | `.codex-plugin/plugin.json`  | `.mcp.json` |
 | `cursor` | `.cursor-plugin/plugin.json` | `mcp.json`  |
+| `agent-plugins` | `plugin.json` (root) | `mcp.json` |
+
+The `agent-plugins` entry is a portable **[Agent Plugins v1](https://agent-plugins.org/specification)**
+package: one vendor-neutral directory (`plugin.json` + `mcp.json` + `skills/`)
+that any conformant client can load without a provider-specific manifest. It
+collapses the duplicated per-vendor "box" into a single layout. Client-only
+presentation data is kept in the vendor folders (e.g. `providers/codex/`) for
+now; the Agent Plugins schema reserves `extensions.<reverse.domain>` for it if
+needed later. See
+[`agent-plugins/plugin/README.md`](agent-plugins/plugin/README.md).
 
 ## MCP server
 

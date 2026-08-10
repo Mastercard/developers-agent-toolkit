@@ -26,6 +26,7 @@ const PLUGIN_SKILLS_DIRS = [
   path.join(REPO_ROOT, "providers/claude/plugin/skills"),
   path.join(REPO_ROOT, "providers/codex/plugin/skills"),
   path.join(REPO_ROOT, "providers/cursor/plugin/skills"),
+  path.join(REPO_ROOT, "providers/agent-plugins/plugin/skills"),
 ];
 
 // Files preserved in provider skill dirs during cleanup (never deleted).
@@ -46,6 +47,7 @@ const VERSION_FILES = [
   path.join(REPO_ROOT, "providers/claude/plugin/.claude-plugin/plugin.json"),
   path.join(REPO_ROOT, "providers/codex/plugin/.codex-plugin/plugin.json"),
   path.join(REPO_ROOT, "providers/cursor/plugin/.cursor-plugin/plugin.json"),
+  path.join(REPO_ROOT, "providers/agent-plugins/plugin/plugin.json"),
 ];
 
 const bumpVersion = (version, type) => {
