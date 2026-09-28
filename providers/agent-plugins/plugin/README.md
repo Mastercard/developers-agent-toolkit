@@ -9,7 +9,7 @@ provider-specific manifest.
 plugin/
 ├── plugin.json   # Agent Plugins manifest ($schema + name + metadata)
 ├── mcp.json      # MCP server wiring (type: streamable-http)
-└── skills/       # mastercard-developers-bestpractice (synced from /skills)
+└── skills/       # mastercard-best-practices (synced from /skills)
 ```
 
 ## Why this exists

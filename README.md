@@ -79,7 +79,7 @@ For more details, checkout [typescript](typescript/README.md) directory
 
 ## Agent Plugins
 
-[Agent skills](https://agentskills.io/home) are instructions that agents can use to build faster and more accurately. This repository provides official plugins that bundle the `mastercard-developers-bestpractice` skill together with the Mastercard Developers MCP server for popular agent harnesses.
+[Agent skills](https://agentskills.io/home) are instructions that agents can use to build faster and more accurately. This repository provides official plugins that bundle the `mastercard-best-practices` skill together with the Mastercard Developers MCP server for popular agent harnesses.
 
 If you use one of these harnesses, we recommend installing the plugin, which includes the MCP server and updates automatically.
 
@@ -166,11 +166,11 @@ agent selects the right tools.
 
 ### Editing skills
 
-The [`skills/`](skills/) directory at the repository root is the **single source of truth** for every agent skill (for example `mastercard-developers-bestpractice`). Each provider under `providers/*/plugin/skills/` holds a synchronized copy - do not edit those copies directly.
+The [`skills/`](skills/) directory at the repository root is the **single source of truth** for every agent skill (for example `mastercard-best-practices`). Each provider under `providers/*/plugin/skills/` holds a synchronized copy - do not edit those copies directly.
 
 To update a skill:
 
-1. Edit the canonical file under `skills/` (e.g. `skills/mastercard-developers-bestpractice/SKILL.md`).
+1. Edit the canonical file under `skills/` (e.g. `skills/mastercard-best-practices/SKILL.md`).
 2. Run the sync script from the repository root to propagate the change to every provider:
 
    ```bash

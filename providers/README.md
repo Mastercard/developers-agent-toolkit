@@ -6,7 +6,7 @@ Most providers share the same vendor-specific layout:
 
 ```
 providers/<provider>/plugin/
-├── skills/                 # Agent skills (mastercard-developers-bestpractice)
+├── skills/                 # Agent skills (mastercard-best-practices)
 ├── .mcp.json | mcp.json    # Mastercard Developers MCP server wiring
 └── .<provider>-plugin/     # Provider-specific plugin manifest (plugin.json)
 ```
@@ -42,7 +42,7 @@ skill.
 
 ## Skills
 
-Each plugin ships the `mastercard-developers-bestpractice` skill under
+Each plugin ships the `mastercard-best-practices` skill under
 `skills/`. The skill instructs agents on how to set up the Mastercard
 Developers MCP server (remote and local) and how to reach Mastercard
 documentation in `llms.txt` format.

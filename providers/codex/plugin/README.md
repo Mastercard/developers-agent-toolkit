@@ -9,7 +9,7 @@ plugin.
 |------|---------|
 | `.codex-plugin/plugin.json` | Plugin manifest (metadata, skills path, interface) |
 | `.mcp.json` | Wires the remote Mastercard Developers MCP server (`https://developer.mcp.mastercard.com`, no authentication) |
-| `skills/` | One subdirectory per skill (`mastercard-developers-bestpractice`) |
+| `skills/` | One subdirectory per skill (`mastercard-best-practices`) |
 
 ## MCP
 
@@ -31,7 +31,7 @@ connection is declared directly in `.mcp.json`:
 ## Skills
 
 Skills live under `skills/`, one subdirectory each. The
-`mastercard-developers-bestpractice` skill explains how to set up the MCP
+`mastercard-best-practices` skill explains how to set up the MCP
 server (remote and local via `npx -y @mastercard/developers-mcp`) and how to
 access Mastercard documentation in `llms.txt` format.
 
