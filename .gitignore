@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 .idea
+*.iml
 .eslintcache
 .npmrc
 .mcpregistry*

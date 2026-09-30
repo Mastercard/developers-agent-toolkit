@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "mastercard-developers": {
+      "url": "https://developer.mcp.mastercard.com"
+    }
+  }
+}

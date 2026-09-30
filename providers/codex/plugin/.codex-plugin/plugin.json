@@ -1,0 +1,41 @@
+{
+  "name": "mastercard-developers",
+  "version": "1.0.0",
+  "description": "Mastercard Developers plugin for Codex to help build integrations with Mastercard APIs, including best practices and the Mastercard Developers MCP server.",
+  "author": {
+    "name": "Mastercard",
+    "url": "https://developer.mastercard.com"
+  },
+  "homepage": "https://developer.mastercard.com",
+  "repository": "https://github.com/Mastercard/developers-agent-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "mastercard",
+    "mastercard-developers",
+    "payments",
+    "api",
+    "open-banking",
+    "open-finance",
+    "integration",
+    "mcp",
+    "modelcontextprotocol",
+    "agent-toolkit"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Mastercard Developers",
+    "developerName": "Mastercard",
+    "shortDescription": "Mastercard Developers plugin for Codex",
+    "longDescription": "Build integrations with Mastercard APIs using current product documentation, API specifications, and integration guides. Includes best practices and the Mastercard Developers MCP server.",
+    "category": "Finance",
+    "capabilities": [],
+    "websiteURL": "https://developer.mastercard.com",
+    "privacyPolicyURL": "https://www.mastercard.com/global/en/vision/corp-responsibility/commitment-to-privacy/privacy.html",
+    "termsOfServiceURL": "https://developer.mastercard.com/terms-of-use",
+    "brandColor": "#EB001B",
+    "defaultPrompt": [
+      "Use Mastercard Developers to help with this task"
+    ],
+    "screenshots": []
+  }
+}

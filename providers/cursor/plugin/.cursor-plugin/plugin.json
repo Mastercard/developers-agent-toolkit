@@ -1,0 +1,24 @@
+{
+  "name": "mastercard-developers",
+  "description": "Mastercard Developers plugin for Cursor to help build integrations with Mastercard APIs, including best practices and the Mastercard Developers MCP server.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mastercard",
+    "url": "https://developer.mastercard.com"
+  },
+  "homepage": "https://developer.mastercard.com",
+  "repository": "https://github.com/Mastercard/developers-agent-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "mastercard",
+    "mastercard-developers",
+    "payments",
+    "api",
+    "open-banking",
+    "open-finance",
+    "integration",
+    "mcp",
+    "modelcontextprotocol",
+    "agent-toolkit"
+  ]
+}

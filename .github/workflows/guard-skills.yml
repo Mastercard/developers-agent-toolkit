@@ -1,0 +1,23 @@
+name: Guard Skills Sync
+'on':
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+jobs:
+  skills-in-sync:
+    name: Verify provider skills match canonical skills/
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'Use Node.js 20.x'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Check skills are in sync
+        run: node scripts/sync.js --check

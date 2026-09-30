@@ -1,0 +1,27 @@
+{
+  "name": "mastercard-developers",
+  "metadata": {
+    "description": "Official Mastercard Developers plugins and skills for AI coding agents, including the Mastercard Developers MCP server and best practices for building integrations with Mastercard APIs."
+  },
+  "owner": {
+    "name": "Mastercard",
+    "email": "apisupport@mastercard.com"
+  },
+  "plugins": [
+    {
+      "name": "mastercard-developers",
+      "version": "1.0.0",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/Mastercard/developers-agent-toolkit.git",
+        "path": "providers/codex/plugin",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      },
+      "category": "Finance"
+    }
+  ]
+}
