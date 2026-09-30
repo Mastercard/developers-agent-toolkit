@@ -22,11 +22,11 @@ The Mastercard Developers MCP server (`@mastercard/developers-mcp`, hosted at
 exist, what an endpoint accepts, and what the integration guides say. Call it
 rather than answering from memory.
 
-One thing its tool descriptions omit: `get-documentation` also returns the
+`get-documentation` also returns the
 service's `api_specification(s)` paths, which supply the required argument for
 both operation tools.
 
-When the server is unavailable, the same facts are public: the service index,
+If the MCP server is unavailable, the same facts are public: the service index,
 the authentication guides, and each service's
 `https://developer.mastercard.com/{serviceId}/documentation/llms-full.txt`,
 which carries `auth_type` in its frontmatter. These are a fallback, not a
@@ -53,7 +53,7 @@ sourceUrl: https://developer.mastercard.com/<service-id>/documentation/index.md
 ```
 
 **If more than one service matches the name, list the candidates and ask which
-one.** "The Locations API" matches three distinct services: `locations` (ATM
+one including the description of the service.** "The Locations API" matches three distinct services: `locations` (ATM
 Locations), `locations-intelligence` (Locations) and `locations-merchants`
 (Location Services).
 
@@ -94,7 +94,7 @@ service's auth type can change between releases.
 Match the value loosely: `authType` appears in more than one form, including
 `OpenBanking` with a trailing parenthetical.
 
-**Pass the `language` you are writing.** Both guide tools take it and return
+**Pass the programming `language` you are writing.** Both guide tools take it and return
 language-specific package names and signer APIs. Each enumerates the languages
 it supports, with an explicit fallback value for anything outside that list.
 
@@ -127,7 +127,7 @@ supplies an input the next one needs.
    service's *API Basics* or *Environments* page first, using the path from step
    2 and `get-documentation-page`. If it carries no base URL, read the `servers`
    block of the API specification from step 2. The request URL is that base plus
-   the operation path. Hosts vary: ATM Locations is
+   the operation path. Hosts vary, e.g. ATM Locations is
    `https://sandbox.api.mastercard.com/locations/atms`, Identity Insights for
    Transactions is `https://sandbox.idv.mastercard.com/identity`.
 6. **Read the auth guide** for the scheme and language, per the table above.
