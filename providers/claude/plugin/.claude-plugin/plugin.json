@@ -9,6 +9,7 @@
   "homepage": "https://developer.mastercard.com",
   "repository": "https://github.com/Mastercard/developers-agent-toolkit",
   "license": "MIT",
+  "privacyPolicyUrl": "https://www.mastercard.us/en-us/about-mastercard/what-we-do/privacy.html",
   "keywords": [
     "mastercard",
     "mastercard-developers",
