@@ -129,6 +129,27 @@ claude plugin install mastercard-developers@mastercard-developers
 npx skills add Mastercard/developers-agent-toolkit
 ```
 
+**IBM Bob** - install the skill into Bob's `.bob/skills` folder, then add the MCP server:
+
+**Step 1**: Install the skill:
+
+```bash
+npx skills add Mastercard/developers-agent-toolkit -a bob
+```
+
+**Step 2**: Add the MCP server to `~/.bob/mcp.json` (global) or `.bob/mcp.json` (project):
+
+```json
+{
+  "mcpServers": {
+    "mastercard-developers": {
+      "command": "npx",
+      "args": ["-y", "@mastercard/developers-mcp"]
+    }
+  }
+}
+```
+
 Plugin sources live under [`providers/`](providers/), and the marketplace manifests are `.claude-plugin/marketplace.json`, `.codex-plugin/marketplace.json`, and `.cursor-plugin/marketplace.json`.
 
 ### Using the skill

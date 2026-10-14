@@ -5,7 +5,7 @@
 //
 // The canonical source of truth for every skill is the repo-root `skills/`
 // directory. Edit a skill there once, run `node scripts/sync.js`, and the change
-// is duplicated into each provider plugin folder (Claude, Codex, Cursor).
+// is duplicated into each provider plugin folder (Claude, Codex, Cursor, IBM Bob).
 //
 // Usage:
 //   node scripts/sync.js          # copy canonical skills into all providers
@@ -27,6 +27,7 @@ const PLUGIN_SKILLS_DIRS = [
   path.join(REPO_ROOT, "providers/codex/plugin/skills"),
   path.join(REPO_ROOT, "providers/cursor/plugin/skills"),
   path.join(REPO_ROOT, "providers/agent-plugins/plugin/skills"),
+  path.join(REPO_ROOT, "providers/bob/plugin/skills"),
 ];
 
 // Files preserved in provider skill dirs during cleanup (never deleted).
@@ -48,6 +49,7 @@ const VERSION_FILES = [
   path.join(REPO_ROOT, "providers/codex/plugin/.codex-plugin/plugin.json"),
   path.join(REPO_ROOT, "providers/cursor/plugin/.cursor-plugin/plugin.json"),
   path.join(REPO_ROOT, "providers/agent-plugins/plugin/plugin.json"),
+  path.join(REPO_ROOT, "providers/bob/plugin/.bob-plugin/plugin.json"),
 ];
 
 const bumpVersion = (version, type) => {

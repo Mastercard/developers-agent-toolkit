@@ -21,6 +21,7 @@ The exception is `agent-plugins`, which follows the portable [Agent Plugins v1](
 | `codex`  | `.codex-plugin/plugin.json`  | `.mcp.json` |
 | `cursor` | `.cursor-plugin/plugin.json` | `mcp.json`  |
 | `agent-plugins` | `plugin.json` (root) | `mcp.json` |
+| `bob`    | `.bob-plugin/plugin.json`   | `mcp.json`  |
 
 The `agent-plugins` entry is a portable **[Agent Plugins v1](https://agent-plugins.org/specification)** package: one vendor-neutral directory (`plugin.json` + `mcp.json` + `skills/`) that any conformant client can load without a provider-specific manifest. It collapses the duplicated per-vendor "box" into a single layout. Client-only presentation data is kept in the vendor folders (e.g. `providers/codex/`) for now; the Agent Plugins schema reserves `extensions.<reverse.domain>` for it if needed later. See [`agent-plugins/plugin/README.md`](agent-plugins/plugin/README.md).
 

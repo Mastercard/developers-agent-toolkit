@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mastercard-developers": {
+      "command": "npx",
+      "args": ["-y", "@mastercard/developers-mcp"]
+    }
+  }
+}
