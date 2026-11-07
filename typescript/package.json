@@ -58,6 +58,8 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",
+    "@noble/hashes": "^2.0.0",
+    "@noble/post-quantum": "^0.5.0",
     "node-fetch": "^2.7.0",
     "zod": "^3.25.67"
   },
