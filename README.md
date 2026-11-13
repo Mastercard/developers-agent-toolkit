@@ -79,7 +79,7 @@ For more details, checkout [typescript](typescript/README.md) directory
 
 ## Agent Plugins
 
-[Agent skills](https://agentskills.io/home) are instructions that agents can use to build faster and more accurately. This repository provides official plugins that bundle the `mastercard-best-practices` skill together with the Mastercard Developers MCP server for popular agent harnesses.
+[Agent skills](https://agentskills.io/home) are instructions that agents can use to build faster and more accurately. This repository provides official plugins that bundle the `mastercard-best-practices` and `mastercard-payload-encryption` skills together with the Mastercard Developers MCP server for popular agent harnesses.
 
 If you use one of these harnesses, we recommend installing the plugin, which includes the MCP server and updates automatically.
 

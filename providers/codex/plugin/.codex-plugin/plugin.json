@@ -37,5 +37,87 @@
       "Use Mastercard Developers to help with this task"
     ],
     "screenshots": []
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Authenticate and call the Merchant Identifier API from Python",
+              "prompt": "I need to call the Mastercard Merchant Identifier API from Python. Write the code to authenticate and make a request.",
+              "tools_triggered": "get-services-list, get-oauth10a-integration-guide, get-api-operation-list, get-api-operation-details",
+              "expected_behavior": "Resolves the Merchant Identifier service, confirms it uses OAuth 1.0a, and returns Python code that loads the signing key, builds the OAuth 1.0a Authorization header (e.g. with mastercard-oauth1-signer), and calls a Merchant Identifier operation against the sandbox base URL, with the request and response shape taken from the API specification."
+            },
+            {
+              "description": "Explicitly invoke the mastercard-best-practices skill for the Merchant Identifier API",
+              "prompt": "Use the mastercard-best-practices skill to help me call the Merchant Identifier API.",
+              "tools_triggered": "get-services-list, get-oauth10a-integration-guide, get-api-operation-list, get-api-operation-details",
+              "expected_behavior": "Loads the mastercard-best-practices skill, resolves the Merchant Identifier service ID, confirms its auth type before writing auth code, and walks through the available operations, sandbox vs production base URLs, and an example signed request."
+            },
+            {
+              "description": "Authenticate to a Mastercard API in Node.js",
+              "prompt": "How do I authenticate to a Mastercard API in Node.js?",
+              "tools_triggered": "get-services-list, get-oauth10a-integration-guide, get-oauth20-integration-guide",
+              "expected_behavior": "Explains that the auth scheme depends on the service, asks for or helps identify the target API, and routes to the matching integration guide. For OAuth 1.0a services, shows Node.js code using mastercard-oauth1-signer to sign requests with the consumer key and PKCS#12 signing key."
+            },
+            {
+              "description": "Debug a 401 from the Mastercard sandbox",
+              "prompt": "I'm getting a 401 from sandbox.api.mastercard.com. What am I doing wrong?",
+              "tools_triggered": "get-oauth10a-integration-guide, get-documentation",
+              "expected_behavior": "Explains what a Mastercard 401 means and lists the common causes using Mastercard's documented error responses: wrong or sandbox/production-mismatched consumer key, wrong signing key or key alias/password, body hash or signature base string mismatch, clock skew, or the project not being enabled for the API. Suggests concrete checks for each cause."
+            },
+            {
+              "description": "Set up OAuth 1.0a request signing for Mastercard Send",
+              "prompt": "Set up OAuth 1.0a request signing for Mastercard Send.",
+              "tools_triggered": "get-services-list, get-oauth10a-integration-guide, get-api-operation-details",
+              "expected_behavior": "Resolves Mastercard Send, confirms it uses OAuth 1.0a, and provides signing setup: loading the PKCS#12 signing key, configuring the consumer key, generating the Authorization header with getAuthorizationHeader (or the language-equivalent signer), and calling the sandbox endpoint. Mentions payload encryption if the operation requires it."
+            },
+            {
+              "description": "Write a runbook for rotating the production keystore of a live Mastercard integration",
+              "prompt": "Our Mastercard integration is live. Write a runbook for rotating the production keystore.",
+              "tools_triggered": "get-oauth10a-integration-guide, get-documentation",
+              "expected_behavior": "Produces a step-by-step runbook: generate a new key in the Mastercard Developers project, download the new PKCS#12 keystore, store it in the secrets manager, deploy it alongside the existing key, switch traffic over and verify with a signed request, then revoke the old key. Includes rollback steps and a reminder not to commit keys."
+            },
+            {
+              "description": "Get a first authenticated sandbox call working for a nightly reconciliation job in Python",
+              "prompt": "We're building a reconciliation job that pulls merchant data nightly. First step is just getting an authenticated call working against the Mastercard sandbox in Python.",
+              "tools_triggered": "get-services-list, get-oauth10a-integration-guide, get-api-operation-list",
+              "expected_behavior": "Identifies the relevant merchant data service, confirms its auth type, and gives a minimal Python script that signs a request with OAuth 1.0a and makes one successful call to the sandbox base URL, with notes on moving credentials to production later."
+            },
+            {
+              "description": "Add a Mastercard API call to a Java service that already uses Stripe",
+              "prompt": "Our Java service already talks to Stripe. Now we need to add a Mastercard API call. Where do I start with their auth?",
+              "tools_triggered": "get-services-list, get-oauth10a-integration-guide, get-oauth20-integration-guide",
+              "expected_behavior": "Explains that Mastercard auth differs from Stripe's API-key model, helps identify the target Mastercard service and its auth type, and shows Java setup for that scheme (e.g. the Mastercard oauth1-signer-java library with an OkHttp/Apache interceptor, consumer key, and PKCS#12 signing key)."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unrelated general programming task",
+              "prompt": "Write a Python function that reverses a linked list."
+            },
+            {
+              "description": "OAuth 2.0 login with Auth0, not Mastercard",
+              "prompt": "Add OAuth 2.0 login to my Express app using Auth0."
+            },
+            {
+              "description": "Payments and signing, but the wrong vendor (Stripe webhooks)",
+              "prompt": "How do I verify a Stripe webhook signature in Node?"
+            },
+            {
+              "description": "Mastercard business question with no code involved",
+              "prompt": "What are Mastercard's interchange rates for card-not-present transactions?"
+            },
+            {
+              "description": "RSA signing that is unrelated to Mastercard",
+              "prompt": "Generate an RSA key pair and sign a JWT in Python."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin provides Mastercard API documentation and integration guidance. It does not sell products or process payments."
+      }
+    }
   }
 }

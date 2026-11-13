@@ -87,6 +87,7 @@ Asked to write code that calls a Mastercard API, work in this order. Each step s
 Any auth type:
 
 - **Match the base URL to the credentials.** Many services sit under `https://sandbox.api.mastercard.com` or `https://api.mastercard.com`, but not all do. Never assemble a base URL from the host alone, and never point sandbox credentials at production.
+- **Check whether the service encrypts payloads.** Encryption is configured per service, so never guess it. If the service's documentation covers payload encryption, follow the `mastercard-payload-encryption` skill.
 
 OAuth 1.0a only. None of this applies to `MTLS` or `OpenBanking`, which do not sign requests:
 

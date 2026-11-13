@@ -6,7 +6,7 @@ Most providers share the same vendor-specific layout:
 
 ```
 providers/<provider>/plugin/
-├── skills/                 # Agent skills (mastercard-best-practices)
+├── skills/                 # Agent skills (mastercard-best-practices, mastercard-payload-encryption)
 ├── .mcp.json | mcp.json    # Mastercard Developers MCP server wiring
 └── .<provider>-plugin/     # Provider-specific plugin manifest (plugin.json)
 ```
@@ -30,6 +30,6 @@ Every plugin connects to the remote Mastercard Developers MCP server at `https:/
 
 ## Skills
 
-Each plugin ships the `mastercard-best-practices` skill under `skills/`. The skill instructs agents on how to set up the Mastercard Developers MCP server (remote and local) and how to reach Mastercard documentation in `llms.txt` format.
+Each plugin ships the `mastercard-best-practices` skill under `skills/`. The skill instructs agents on how to set up the Mastercard Developers MCP server (remote and local) and how to reach Mastercard documentation in `llms.txt` format. The `mastercard-payload-encryption` skill guides request and response payload encryption, including each service's encryption profile, the client-encryption libraries and encryption key handling.
 
 > **Do not edit the skill copies under `providers/*/plugin/skills/`.** They are generated from the canonical [`skills/`](../skills/) directory at the repository root. Edit the canonical file, then run `node scripts/sync.js` to propagate the change to every provider. `node scripts/sync.js --check` (also run in CI) verifies the copies are in sync.

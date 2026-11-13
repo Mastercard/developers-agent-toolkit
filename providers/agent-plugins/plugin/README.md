@@ -6,7 +6,7 @@ This directory is a portable **[Agent Plugins v1](https://agent-plugins.org/spec
 plugin/
 ├── plugin.json   # Agent Plugins manifest ($schema + name + metadata)
 ├── mcp.json      # MCP server wiring (type: streamable-http)
-└── skills/       # mastercard-best-practices (synced from /skills)
+└── skills/       # mastercard-best-practices, mastercard-payload-encryption (synced from /skills)
 ```
 
 ## Why this exists
