@@ -6,7 +6,7 @@ Most providers share the same vendor-specific layout:
 
 ```
 providers/<provider>/plugin/
-├── skills/                 # Agent skills (mastercard-best-practices)
+├── skills/                 # Agent skills (mastercard-best-practices, mastercard-payload-encryption)
 ├── .mcp.json | mcp.json    # Mastercard Developers MCP server wiring
 └── .<provider>-plugin/     # Provider-specific plugin manifest (plugin.json)
 ```
@@ -26,10 +26,13 @@ The `agent-plugins` entry is a portable **[Agent Plugins v1](https://agent-plugi
 
 ## MCP server
 
-Every plugin connects to the remote Mastercard Developers MCP server at `https://developer.mcp.mastercard.com`, which requires **no authentication**. A local `npx -y @mastercard/developers-mcp` alternative is documented in the skill.
+Every plugin connects to the remote Mastercard Developers MCP server at `https://developer.mcp.mastercard.com`, which requires **no authentication**. A local `npx -y @mastercard/developers-mcp` alternative is documented in [`modelcontextprotocol/`](../modelcontextprotocol/README.md).
 
 ## Skills
 
-Each plugin ships the `mastercard-best-practices` skill under `skills/`. The skill instructs agents on how to set up the Mastercard Developers MCP server (remote and local) and how to reach Mastercard documentation in `llms.txt` format.
+Each plugin ships two skills under `skills/`:
+
+- `mastercard-best-practices` guides agents to resolve services, confirm the auth type, choose sandbox or production URLs and read authentication errors using the Mastercard Developers MCP server, and to reach Mastercard documentation in `llms.txt` format when the server is unavailable.
+- `mastercard-payload-encryption` guides request and response payload encryption, including each service's encryption profile, the client-encryption libraries and encryption key handling.
 
 > **Do not edit the skill copies under `providers/*/plugin/skills/`.** They are generated from the canonical [`skills/`](../skills/) directory at the repository root. Edit the canonical file, then run `node scripts/sync.js` to propagate the change to every provider. `node scripts/sync.js --check` (also run in CI) verifies the copies are in sync.

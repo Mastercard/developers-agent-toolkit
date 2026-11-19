@@ -6,12 +6,12 @@ This directory is a portable **[Agent Plugins v1](https://agent-plugins.org/spec
 plugin/
 ├── plugin.json   # Agent Plugins manifest ($schema + name + metadata)
 ├── mcp.json      # MCP server wiring (type: streamable-http)
-└── skills/       # mastercard-best-practices (synced from /skills)
+└── skills/       # mastercard-best-practices, mastercard-payload-encryption (synced from /skills)
 ```
 
 ## Why this exists
 
-The `providers/claude`, `providers/codex`, and `providers/cursor` folders each carry a near-identical copy of the same skill + MCP server wrapped in a different vendor manifest shape. Agent Plugins collapses that duplicated "box" into one portable directory:
+The `providers/claude`, `providers/codex`, and `providers/cursor` folders each carry a near-identical copy of the same skills + MCP server wrapped in a different vendor manifest shape. Agent Plugins collapses that duplicated "box" into one portable directory:
 
 | Concern | Vendor-specific plugins | Agent Plugin |
 | --- | --- | --- |

@@ -8,7 +8,7 @@ This directory contains the Codex-specific assets for the Mastercard Developers 
 |------|---------|
 | `.codex-plugin/plugin.json` | Plugin manifest (metadata, skills path, interface) |
 | `.mcp.json` | Wires the remote Mastercard Developers MCP server (`https://developer.mcp.mastercard.com`, no authentication) |
-| `skills/` | One subdirectory per skill (`mastercard-best-practices`) |
+| `skills/` | One subdirectory per skill (`mastercard-best-practices`, `mastercard-payload-encryption`) |
 
 ## MCP
 
@@ -25,9 +25,14 @@ The Mastercard Developers MCP server is a remote HTTP server that requires **no 
 }
 ```
 
+A local `npx -y @mastercard/developers-mcp` alternative to the remote server is documented in [`modelcontextprotocol/`](https://github.com/Mastercard/developers-agent-toolkit/tree/main/modelcontextprotocol).
+
 ## Skills
 
-Skills live under `skills/`, one subdirectory each. The `mastercard-best-practices` skill explains how to set up the MCP server (remote and local via `npx -y @mastercard/developers-mcp`) and how to access Mastercard documentation in `llms.txt` format.
+Skills live under `skills/`, one subdirectory each:
+
+- `mastercard-best-practices` guides agents to resolve services, confirm the auth type, choose sandbox or production URLs and read authentication errors using the Mastercard Developers MCP server, and to reach Mastercard documentation in `llms.txt` format when the server is unavailable.
+- `mastercard-payload-encryption` guides request and response payload encryption, including each service's encryption profile, the client-encryption libraries and encryption key handling.
 
 ## Installing
 

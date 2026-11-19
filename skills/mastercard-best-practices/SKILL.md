@@ -1,16 +1,7 @@
 ---
 name: mastercard-best-practices
 description: >-
-  Integration guidance for Mastercard APIs. Covers resolving a service's
-  ID from its name, confirming a service's auth type before writing auth
-  code, routing to the right authentication guide, finding an operation's
-  request and response schema, sandbox versus production base URLs, and
-  what Mastercard's error responses actually mean when authentication fails.
-  Use when building, debugging, or reviewing code that calls a Mastercard API.
-  Trigger phrases: "add Mastercard", "Mastercard API", "call a Mastercard
-  endpoint", "write code to call", "OAuth 1.0a signing", "getAuthorizationHeader",
-  "401 from Mastercard", "invalid signature", "consumer key", "signing key",
-  "Mastercard sandbox", "Open Finance".
+  Integration guidance for Mastercard APIs. Covers resolving a service's ID from its name, confirming a service's auth type before writing auth code, routing to the right authentication guide, finding an operation's request and response schema, sandbox versus production base URLs, and what Mastercard's error responses actually mean when authentication fails. Use when building, debugging, or reviewing code that calls a Mastercard API. Trigger phrases: "add Mastercard", "Mastercard API", "call a Mastercard endpoint", "write code to call", "OAuth 1.0a signing", "getAuthorizationHeader", "401 from Mastercard", "invalid signature", "consumer key", "signing key", "Mastercard sandbox", "Open Finance".
 ---
 
 # Mastercard APIs Integration Guide
@@ -87,6 +78,7 @@ Asked to write code that calls a Mastercard API, work in this order. Each step s
 Any auth type:
 
 - **Match the base URL to the credentials.** Many services sit under `https://sandbox.api.mastercard.com` or `https://api.mastercard.com`, but not all do. Never assemble a base URL from the host alone, and never point sandbox credentials at production.
+- **Check whether the service encrypts payloads.** Encryption is configured per service, so never guess it. If the service's documentation covers payload encryption, follow the `mastercard-payload-encryption` skill.
 
 OAuth 1.0a only. None of this applies to `MTLS` or `OpenBanking`, which do not sign requests:
 
