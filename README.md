@@ -115,8 +115,7 @@ To list the skills or install a single one, see **Skills only** under [Install f
 
 ### Install from this repository
 
-Before the plugins are listed in the curated marketplaces, you can install
-directly from this GitHub repository.
+Before the plugins are listed in the curated marketplaces, you can install directly from this GitHub repository.
 
 **Claude Code** - add this repo as a marketplace, then install:
 
@@ -145,10 +144,7 @@ Plugin sources live under [`providers/`](providers/), and the marketplace manife
 
 ### Using the skills
 
-Once the plugin (or the skills and MCP server) is installed, just prompt
-your agent in plain language. The agent loads the matching skill, which
-guides it to call the Mastercard Developers MCP tools instead of relying
-on training data.
+Once the plugin (or the skills and MCP server) is installed, just prompt your agent in plain language. The agent loads the matching skill, which guides it to call the Mastercard Developers MCP tools instead of relying on training data.
 
 | Skill | Use it for |
 | --- | --- |
@@ -160,15 +156,12 @@ on training data.
 To use the `mastercard-best-practices` skill, try a prompt like:
 
 ```text
-Using the Mastercard Developers tools, list the available services,
-then show me the API operations for the Mastercard Locations API and
-explain how to authenticate with OAuth 1.0a.
+Using the Mastercard Developers tools, list the available services, then show me the API operations for the Mastercard Locations API and explain how to authenticate with OAuth 1.0a.
 ```
 
 ![Prompting the agent with the mastercard-best-practices skill](.github/assets/md-prompt.jpg)
 
-Results will include the service list, the API operations for the Locations API,
-and details about the OAuth 1.0a integration:
+Results will include the service list, the API operations for the Locations API, and details about the OAuth 1.0a integration:
 
 ![Service list and Locations API operations returned by the agent](.github/assets/md-prompt-output1.jpg)
 
@@ -181,17 +174,14 @@ Behind the scenes the agent chains the MCP tools to answer this, for example:
 3. `get-documentation-page` - discover the correct swagger spec path.
 4. `get-oauth10a-integration-guide` - pull the official authentication guide.
 
-You don't call these tools directly - just describe your goal and the
-agent selects the right tools.
+You don't call these tools directly - just describe your goal and the agent selects the right tools.
 
 #### Payload encryption
 
 To use the `mastercard-payload-encryption` skill, try a prompt like:
 
 ```text
-I'm calling the Mastercard Account Validation API from Java. Does it
-require payload encryption? If so, configure the client-encryption
-library with the exact settings this service uses.
+I'm calling the Mastercard Account Validation API from Java. Does it require payload encryption? If so, configure the client-encryption library with the exact settings this service uses.
 ```
 
 ### Editing skills

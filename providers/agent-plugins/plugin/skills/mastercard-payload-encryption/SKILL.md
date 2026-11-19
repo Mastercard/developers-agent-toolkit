@@ -1,19 +1,7 @@
 ---
 name: mastercard-payload-encryption
 description: >-
-  Request and response payload encryption for Mastercard APIs. Covers finding
-  a service's own encryption profile instead of guessing it, choosing between
-  JWE and Mastercard (field level) encryption, configuring the Mastercard
-  client-encryption libraries, handling the Client Encryption Key and the
-  Mastercard Encryption Key, combining encryption with OAuth 1.0a signing, and
-  diagnosing decryption failures. Use when building, debugging, or reviewing
-  code that encrypts requests to, or decrypts responses from, a Mastercard API.
-  Trigger phrases: "Mastercard encryption", "payload encryption", "encrypt the
-  request", "decrypt the response", "JWE", "field level encryption",
-  "client-encryption", "Client Encryption Key", "Mastercard Encryption Key",
-  "encryptedValue", "encryptedData", "encryptedPayload", "oaepHashingAlgorithm",
-  "X-Encrypted", "x-mastercard-api-encrypted", "DECRYPT_PRIVATE_KEY_NOT_FOUND",
-  "REQUEST_DECRYPT_FAILED", "CRYPTOGRAPHY_ERROR", "CRYPTO_ERROR".
+  Request and response payload encryption for Mastercard APIs: finding a service's own encryption profile, JWE vs. Mastercard (field level) encryption, the client-encryption libraries, the Client Encryption Key and Mastercard Encryption Key, encrypting before OAuth 1.0a signing, and decryption failures. Use when building, debugging, or reviewing code that encrypts requests to, or decrypts responses from, a Mastercard API. Trigger phrases: "Mastercard encryption", "Mastercard payload encryption", "Mastercard JWE", "Mastercard field level encryption", "Mastercard client-encryption", "Client Encryption Key", "Mastercard Encryption Key", "x-mastercard-api-encrypted", "X-Encrypted", "encryptedValue", "oaepHashingAlgorithm", "DECRYPT_PRIVATE_KEY_NOT_FOUND", "REQUEST_DECRYPT_FAILED", "CRYPTOGRAPHY_ERROR", "CRYPTO_ERROR".
 ---
 
 # Mastercard Payload Encryption
@@ -37,10 +25,10 @@ These are the parts of a profile, with values observed in real services to show 
 | Opt-in at onboarding | Partner | Account Validation's `X-Encrypted` header must be `true`, may be either, or must be omitted, depending on whether encryption was set to *enabled*, *flexible* or *disabled* for the partner at onboarding. |
 | Environment support | Service | Account Validation's sandbox does not support payload encryption; encrypted calls go to MTF with sandbox keys. |
 | Who calls whom | Service | Most services are called by you. Some call your server: MDES Authentication Facilitator sends encrypted requests to the issuer over mutual TLS. This reverses which key does what (see [Encryption keys](#encryption-keys)). |
-| Deviations from the platform guide | Service | MDES Authentication Facilitator names its digest field `oaepHashingAlgorithm` (the guide says `oaepPaddingDigestAlgorithm`). It offers AES-GCM as well as CBC, and supports legacy RSA PKCS#1 v1.5 until 31 March 2027. |
+| Deviations from the platform guide | Service | MDES Authentication Facilitator names its digest field `oaepHashingAlgorithm` (the guide says `oaepPaddingDigestAlgorithm`). It offers AES-GCM as well as CBC, and supports legacy RSA PKCS#1 v1.5 until 31 March 2027 (re-check the service's documentation). |
 | Schemes outside the libraries | Service | Mastercard Processing's PIN block encryption. Options: a Zone PIN Key exchanged at onboarding; RSA keys fetched from `/public-keys` and rotated frequently; or, for `getPin`, your own RSA key sent in the `Customer-Public-Rsa-Key` header. |
 
-These examples are evidence that profiles vary. They are not values to reuse. Re-read the service's own pages every time.
+These examples are evidence that profiles vary, recorded at the time of writing. They are not values to reuse and may have changed. Re-read the service's own pages every time.
 
 ## Establish the profile before writing code
 
@@ -48,7 +36,9 @@ Work in this order. Each step supplies an input the next one needs.
 
 1. **Resolve the service.** Use `get-services-list` to get the `serviceId` and `authType`, as described in the `mastercard-best-practices` skill. Never construct a `serviceId` from the service name. Names are ambiguous: "Account Validation" and "Mastercard Processing" each match several services with different profiles. If more than one matches, ask which one.
 2. **Find the service's encryption pages.** Call `get-documentation(serviceId)` and scan the page list. The titles are not consistent. Seen so far: *Encryption*, *Message Encryption and Decryption*, *Authentication and Encryption*, *Security Overview and Encryption*, *Add Payload Encryption*, *Perform Encryption*. Encryption can also appear only inside *API Basics*, a tutorial, the Insomnia or Postman setup, or *Code and Formats*. Read every candidate with `get-documentation-page`.
-3. **Check that no requirement has been missed.** A service's encryption page can be incomplete. Requirements for individual operations are often stated only in the use-case, guide or testing pages for that operation. Retrieve `https://developer.mastercard.com/{serviceId}/documentation/llms-full.txt` in full and search the raw text for `encrypt`. Read every operation it names. Some raw OpenAPI specs mark encrypted operations with `x-mastercard-api-encrypted: true`; Consumer Clarity's do, for example. The MCP operation tools do not show this marker, so fetch the raw spec to see it. Use the marker only to confirm that an operation is encrypted. Its absence proves nothing: Account Validation's spec has no marker, yet that service encrypts. If the marker or a schema description says an operation is encrypted but the documentation says it is not, or the other way round, report the conflict to the developer and ask. Do not resolve it either way yourself.
+3. **Check that no requirement has been missed.** A service's encryption page can be incomplete. Requirements for individual operations are often stated only in the use-case, guide or testing pages for that operation. Retrieve `https://developer.mastercard.com/{serviceId}/documentation/llms-full.txt` in full and search the raw text for `encrypt`. Read every operation it names.
+   - **Check the raw spec for the encryption marker.** Some raw OpenAPI specs mark encrypted operations with `x-mastercard-api-encrypted: true`; Consumer Clarity's do, for example. The MCP operation tools do not show this marker. Fetch each raw spec from the full URLs listed under `api_specification(s)` in the `get-documentation(serviceId)` output (for example `https://static.developer.mastercard.com/content/consumer-clarity/swagger/consumer-clarity-api-spec.yml`); use them as given rather than building a URL. Search the raw text for `x-mastercard-api-encrypted`. If no specs are listed, rely on the documentation alone.
+   - **Treat the marker as one-way evidence.** Use the marker only to confirm that an operation is encrypted. Its absence proves nothing: Account Validation's spec has no marker, yet that service encrypts. If the marker or a schema description says an operation is encrypted but the documentation says it is not, or the other way round, report the conflict to the developer and ask. Do not resolve it either way yourself.
 4. **Read the operation's contract.** `get-api-operation-details(apiSpecificationPath, method, path)` shows encryption-related header parameters such as `X-Encrypted` and their descriptions. Use the schema for the plaintext fields. Take encryption paths and field names from the documentation. If the documentation's only example is for a different operation, the schema's encrypted envelope for this operation (an object holding fields such as `encryptedData`, `encryptedKey` and `iv`) is the best remaining evidence. Use it, label each value as derived from the schema rather than documented, and ask the developer to confirm it.
 5. **Write the profile down with a source for each value.** Before writing code, list scheme, direction, operations, paths, field names and (for Mastercard encryption) OAEP digest, encoding and header-versus-body parameters. Give the documentation page each value came from.
 6. **Ask for anything the documentation does not state.** Some settings, such as the `X-Encrypted` mode or an OAEP digest chosen at onboarding, exist only in the developer's onboarding material. Ask for them. If code must be written first, leave a clearly marked placeholder (`TODO: confirm from <service> onboarding`). Never put a plausible value in its place.
@@ -59,7 +49,7 @@ Work in this order. Each step supplies an input the next one needs.
 The same facts are public:
 
 - The platform guide: https://developer.mastercard.com/platform/documentation/security-and-authentication/securing-sensitive-data-using-payload-encryption/index.md. It describes both schemes and the keys, but not any service's profile.
-- The service's `https://developer.mastercard.com/{serviceId}/documentation/llms-full.txt`. Retrieve it in full and search the raw text for `encrypt`. Do not use a tool that summarises, because summaries drop or invent field names.
+- The service's `https://developer.mastercard.com/{serviceId}/documentation/llms-full.txt`. Retrieve it in full and search the raw text for `encrypt`. Do not use a tool that summarises, because summaries drop or invent field names. Its frontmatter lists the raw spec URLs under `api_specification(s)`; fetch them to check for `x-mastercard-api-encrypted`.
 - The README of the client-encryption library for the target language (see below).
 
 ## The two schemes
@@ -70,7 +60,7 @@ The platform guide describes both schemes as wrapping a one-time AES session key
 | --- | --- | --- |
 | Library name | JWE | Field Level Encryption (FLE) |
 | Wire format | One compact-serialised JWE string in a single field. | Separate fields for the IV, encrypted key, encrypted value, public key fingerprint and OAEP digest, or some of these as HTTP headers. |
-| AES modes | CBC and GCM | CBC |
+| AES modes (libraries) | Encrypt with GCM (`A256GCM`); decrypt GCM or CBC (`A128CBC-HS256`) | CBC |
 | Extra settings to confirm | Encrypted value field name, paths | Paths, every field or header name, OAEP digest, value encoding |
 
 Never switch a service from one scheme to the other. The service decides which one it accepts.
@@ -98,7 +88,7 @@ Mastercard's PHP and Ruby libraries (`client-encryption-php`, `client-encryption
 - The value-encoding builder method is `withFieldValueEncoding` in Java and `WithValueEncoding` in C#.
 - Decryption-path conventions differ between schemes and between libraries. In the Java JWE example, the decryption path ends at the encrypted value field (`$.path.to.encryptedFoo.encryptedValue`). In the Mastercard-encryption example, it ends at the containing object. Follow the service's own example where one exists, then that library's README.
 
-**Check that encryption actually happened.** A path that matches nothing can be skipped, or an empty value encrypted, without any error, and the plaintext is then sent. This happens with copied paths, with `$.` paths in Go, and with paths that do not match the body's real nesting. After encrypting, check that every sensitive field is gone from the outgoing body and that the encrypted fields are present. Refuse to send the request if not.
+**Check that encryption actually happened.** A path that matches nothing can be skipped, or an empty value encrypted, without any error, and the plaintext is then sent. This happens with copied paths, with `$.` paths for Mastercard encryption in Go, and with paths that do not match the body's real nesting. After encrypting, check that every sensitive field is gone from the outgoing body and that the encrypted fields are present. Refuse to send the request if not.
 
 If the target language has no library, tell the developer before writing any cryptography. The libraries and the platform guide can serve as a reference implementation, but a hand-written implementation needs the developer's agreement.
 
@@ -117,7 +107,7 @@ The table assumes you call Mastercard. **When Mastercard calls your server** (fo
 
 - **Take the public key fingerprint from the Dashboard or the service documentation.** The fingerprint tells Mastercard which key to decrypt with. The libraries can compute one from the certificate, but how they compute it varies by library and option (certificate or public key), and a service may expect a different value. If the computed value may not match, set the fingerprint explicitly and ask the developer to confirm it.
 - **Encryption keys are not signing keys.** The OAuth 1.0a signing keystore is a different key, even though both can be `.p12` files. Never load one in place of the other.
-- **Keys are tied to an environment.** Sandbox keys work in sandbox and in MTF. Production keys work only in production. Match the keys to the host, just as with signing credentials.
+- **Keys are tied to an environment.** Production keys work only in production. Which keys a service accepts in MTF is set by the service: Account Validation, for example, takes sandbox keys in MTF. Check the service's documentation, and match the keys to the host just as with signing credentials.
 - **Mastercard never holds your private key.** A lost decryption key cannot be recovered. Create a new key on the Dashboard and register it.
 - **Keep private keys and keystore passwords out of source control.** Load them from a secrets manager or environment-specific configuration, in a password-protected or hardware key store.
 - **The libraries accept the certificate directly.** Only if something needs the bare public key, extract it with `openssl x509 -pubkey -noout -in cert.pem > key.pem`.
@@ -129,7 +119,38 @@ The table assumes you call Mastercard. **When Mastercard calls your server** (fo
 - **Java (OkHttp):** add the encryption interceptor before the OAuth 1.0a interceptor: `.addInterceptor(OkHttpEncryptionInterceptor.from(config))`, then `.addInterceptor(new OkHttpOAuth1Interceptor(...))`.
 - **C# (RestSharp):** call `_encryptionInterceptor.InterceptRequest(request)` before `_signer.Sign(...)`.
 - **Python (generated client):** call `add_signing_layer` first, then `add_encryption_layer`. The outer layer runs first, so encryption happens before signing.
-- **Go:** pass the signer to `interceptor.GetHttpClient(jweConfig, signer.Sign)`.
+- **Go:** pass the signer to the interceptor for the service's scheme. `GetHttpClient` takes the config by value, so dereference the pointer that `Build()` returns. The `mastercard_interceptor` package is in the library source but not in the README. In these snippets, `encryptionCertificate` is the Client Encryption Key certificate and `signer` is an `*oauth.Signer` from `github.com/mastercard/oauth1-signer-go`. For services that don't use OAuth 1.0a, pass `nil` instead of `signer.Sign`.
+
+  JWE:
+
+  ```go
+  jweConfig := jwe.NewJWEConfigBuilder().
+  	WithCertificate(encryptionCertificate).
+  	// decryption key (if responses are encrypted), paths and field names from the service's profile
+  	Build()
+  client, err := interceptor.GetHttpClient(*jweConfig, signer.Sign)
+  if err != nil {
+  	return err
+  }
+  // use client for requests
+  ```
+
+  Mastercard encryption, where `Build()` also returns an error:
+
+  ```go
+  fleConfig, err := field_level_encryption.NewFieldLevelEncryptionConfigBuilder().
+  	WithEncryptionCertificate(encryptionCertificate).
+  	// decryption key (if responses are encrypted), paths, field names, OAEP digest and encoding from the service's profile
+  	Build()
+  if err != nil {
+  	return err
+  }
+  client, err := mastercard_interceptor.GetHttpClient(*fleConfig, signer.Sign)
+  if err != nil {
+  	return err
+  }
+  // use client for requests
+  ```
 
 Never sign the plaintext and then encrypt it. Never re-serialise the body after encrypting it.
 

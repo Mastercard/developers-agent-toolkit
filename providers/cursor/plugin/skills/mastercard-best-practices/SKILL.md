@@ -1,16 +1,7 @@
 ---
 name: mastercard-best-practices
 description: >-
-  Integration guidance for Mastercard APIs. Covers resolving a service's
-  ID from its name, confirming a service's auth type before writing auth
-  code, routing to the right authentication guide, finding an operation's
-  request and response schema, sandbox versus production base URLs, and
-  what Mastercard's error responses actually mean when authentication fails.
-  Use when building, debugging, or reviewing code that calls a Mastercard API.
-  Trigger phrases: "add Mastercard", "Mastercard API", "call a Mastercard
-  endpoint", "write code to call", "OAuth 1.0a signing", "getAuthorizationHeader",
-  "401 from Mastercard", "invalid signature", "consumer key", "signing key",
-  "Mastercard sandbox", "Open Finance".
+  Integration guidance for Mastercard APIs. Covers resolving a service's ID from its name, confirming a service's auth type before writing auth code, routing to the right authentication guide, finding an operation's request and response schema, sandbox versus production base URLs, and what Mastercard's error responses actually mean when authentication fails. Use when building, debugging, or reviewing code that calls a Mastercard API. Trigger phrases: "add Mastercard", "Mastercard API", "call a Mastercard endpoint", "write code to call", "OAuth 1.0a signing", "getAuthorizationHeader", "401 from Mastercard", "invalid signature", "consumer key", "signing key", "Mastercard sandbox", "Open Finance".
 ---
 
 # Mastercard APIs Integration Guide
