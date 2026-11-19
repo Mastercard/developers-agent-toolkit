@@ -111,6 +111,8 @@ codex plugin add mastercard-developers@openai-curated
 npx skills add Mastercard/developers-agent-toolkit
 ```
 
+To list the skills or install a single one, see **Skills only** under [Install from this repository](#install-from-this-repository).
+
 ### Install from this repository
 
 Before the plugins are listed in the curated marketplaces, you can install
@@ -123,21 +125,39 @@ claude plugin marketplace add Mastercard/developers-agent-toolkit
 claude plugin install mastercard-developers@mastercard-developers
 ```
 
-**Skills only** (any supported agent) - install the skill straight from the repo:
+**Skills only** (any supported agent) - install the skills straight from the repo:
 
 ```bash
+# Install all skills
 npx skills add Mastercard/developers-agent-toolkit
+
+# List the available skills without installing
+npx skills add Mastercard/developers-agent-toolkit --list
+
+# Install a single skill
+npx skills add Mastercard/developers-agent-toolkit --skill mastercard-best-practices
+npx skills add Mastercard/developers-agent-toolkit --skill mastercard-payload-encryption
 ```
+
+The skills call the Mastercard Developers MCP tools, so install the [MCP server](#model-context-protocol) as well when installing skills on their own.
 
 Plugin sources live under [`providers/`](providers/), and the marketplace manifests are `.claude-plugin/marketplace.json`, `.codex-plugin/marketplace.json`, and `.cursor-plugin/marketplace.json`.
 
-### Using the skill
+### Using the skills
 
-Once the plugin (or MCP server) is installed, just prompt your agent in
-plain language. The skill guides the agent to call the Mastercard
-Developers MCP tools instead of relying on training data.
+Once the plugin (or the skills and MCP server) is installed, just prompt
+your agent in plain language. The agent loads the matching skill, which
+guides it to call the Mastercard Developers MCP tools instead of relying
+on training data.
 
-Try a prompt like:
+| Skill | Use it for |
+| --- | --- |
+| [`mastercard-best-practices`](skills/mastercard-best-practices/SKILL.md) | Finding services and operations, confirming the auth type, OAuth 1.0a, OAuth 2.0, mTLS and Open Finance authentication, sandbox vs production URLs, and authentication errors. |
+| [`mastercard-payload-encryption`](skills/mastercard-payload-encryption/SKILL.md) | Request and response payload encryption (JWE or field-level), the client-encryption libraries, encryption keys, and decryption errors. It looks up each service's own encryption profile instead of guessing. |
+
+#### Services and authentication
+
+To use the `mastercard-best-practices` skill, try a prompt like:
 
 ```text
 Using the Mastercard Developers tools, list the available services,
@@ -145,7 +165,7 @@ then show me the API operations for the Mastercard Locations API and
 explain how to authenticate with OAuth 1.0a.
 ```
 
-![Prompting the agent with the Mastercard Developers skill](.github/assets/md-prompt.jpg)
+![Prompting the agent with the mastercard-best-practices skill](.github/assets/md-prompt.jpg)
 
 Results will include the service list, the API operations for the Locations API,
 and details about the OAuth 1.0a integration:
@@ -163,6 +183,16 @@ Behind the scenes the agent chains the MCP tools to answer this, for example:
 
 You don't call these tools directly - just describe your goal and the
 agent selects the right tools.
+
+#### Payload encryption
+
+To use the `mastercard-payload-encryption` skill, try a prompt like:
+
+```text
+I'm calling the Mastercard Account Validation API from Java. Does it
+require payload encryption? If so, configure the client-encryption
+library with the exact settings this service uses.
+```
 
 ### Editing skills
 
